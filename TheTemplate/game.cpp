@@ -4,6 +4,20 @@
 
 namespace Tmpl8
 {
+	void Game::DrawI(int x, int y)
+	{
+		screen->Line(100 + x, 50 + y, 200 + x, 50 + y, 0xffffff);
+		screen->Line(150 + x, 50 + y, 150 + x, 300 + y, 0xffffff);
+		screen->Line(100 + x, 300 + y, 200 + x, 300 + y, 0xffffff);
+	}
+	void Game::DrawFatI(int width, int moveoffset) {
+		for (int i = 0; i < width; i++)
+		{
+			DrawI(i+moveoffset, i);
+		}
+	}
+
+
 	// -----------------------------------------------------------
 	// Initialize the application
 	// -----------------------------------------------------------
@@ -24,17 +38,15 @@ namespace Tmpl8
 	// -----------------------------------------------------------
 	// Main application tick function
 	// -----------------------------------------------------------
+	Sprite theSprite(new Surface("assets/ctankbase.tga"), 16);
 	void Game::Tick(float deltaTime)
 	{
-		// clear the graphics window
 		screen->Clear(0);
-		// print something in the graphics window
-		screen->Print("hello world", 2, 2, 0xffffff);
-		// print something to the text window
-		printf("this goes to the console window.\n");
-		// draw a sprite
-		rotatingGun.SetFrame(frame);
-		rotatingGun.Draw(screen, 100, 100);
-		if (++frame == 36) frame = 0;
+		for (int i = 0; i < 16; i++)
+		{
+			theSprite.SetFrame(i);
+			theSprite.Draw(screen, i * 50, 0);
+		}
 	}
+	
 };

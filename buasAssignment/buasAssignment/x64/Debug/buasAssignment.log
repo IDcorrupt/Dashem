@@ -1,3 +1,0 @@
-﻿  main.cpp
-C:\Vault\0_Personal\buas\game-practice\buasAssignment\main.cpp(3,6): warning C4326: return type of 'main' should be 'int' instead of 'void'
-  buasAssignment.vcxproj -> C:\Vault\0_Personal\buas\game-practice\buasAssignment\x64\Debug\buasAssignment.exe

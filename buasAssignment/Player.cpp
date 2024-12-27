@@ -1,17 +1,21 @@
 #include "Player.h"
 
 //contructor
-Player::Player() 
+Player::Player(int health, int healthMax, float speed, float healCooldown)
 {
-    if (playerTexture.loadFromFile("Assets/TECH_DUNGEON_ROUGELITE/Players/No_Outline/player_blue_x1.png"))
+    Player::health = health;
+    Player::healthMax = healthMax;
+    Player::speed = speed;
+    Player::healCooldown = healCooldown;
+    if (Texture.loadFromFile("Assets/TECH_DUNGEON_ROUGELITE/Players/No_Outline/player_blue_x1.png"))
     {
         std::cout << "player texture set successfully..." << std::endl;
-        playerSprite.setTexture(playerTexture);
-        playerSprite.scale(sf::Vector2f(3, 3));
+        Sprite.setTexture(Texture);
+        Sprite.scale(sf::Vector2f(3, 3));
         //selecting sprite from loaded spritesheet
         int xIndex = 0;
         int yIndex = 0;
-        playerSprite.setTextureRect(sf::IntRect(xIndex * 32, yIndex * 32, 32, 32));
+        Sprite.setTextureRect(sf::IntRect(xIndex * 32, yIndex * 32, 32, 32));
     }
     else
     {
@@ -36,7 +40,7 @@ void Player::Move()
     //sprite facing
     // [SELF NOTE]  |  negative scale didnt work -> do this later when you know how
     //apply movement
-    playerSprite.setPosition(playerSprite.getPosition() + displacement);
+    Sprite.setPosition(Sprite.getPosition() + displacement);
 }
 void Player::Damaged() 
 {
@@ -65,5 +69,4 @@ void Player::Die()
 int Player::getHealth() { return health; }
 int Player::getHealthMax() { return healthMax; }
 bool Player::getDashing() { return dashing; }
-sf::Sprite Player::getSprite() { return playerSprite; }
 

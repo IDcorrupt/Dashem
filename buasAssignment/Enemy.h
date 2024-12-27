@@ -2,6 +2,7 @@
 #define ENEMY_H
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "Projectile.h"
 
 class Enemy 
 {
@@ -22,19 +23,26 @@ private:
     bool isHurt = false;
 
     //components
-    sf::Texture enemyTexture;
-    sf::Sprite enemySprite;
-
-
+    sf::Texture Texture;
 public:
-    Enemy(EnemyType spawntype);
-    void Move();
-    void Attack();
+    sf::Sprite Sprite;
+    std::vector<Projectile> projectiles; //for shooter type
+
+    //functions
+    Enemy(EnemyType spawntype, const sf::Texture& Textures);
+    void Move(sf::Vector2f target);
+    void Attack(sf::Vector2f target);
     void Damaged();
     void Die();
+
+    //getters
     int getHealth();
     bool getHurt();
-    sf::Sprite getSprite();
+    
+    //attack types
+    void NormalAttack();
+    void ShooterAttack(sf::Vector2f target);
+    void EliteAttack();
 };
 
 #endif 

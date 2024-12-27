@@ -6,18 +6,20 @@
 class Player {
 private:
     //stats
-    int healthMax = 5;
-    int health = healthMax;
-    float speed = 0.2f;
+    int healthMax;
+    int health;
+    float speed;
+    float healCooldown;
     bool dashing = false; //attack
-    float healCooldown = 10.0f;
 
     //components
-    sf::Texture playerTexture;
-    sf::Sprite playerSprite;
+    sf::Texture Texture;
 
 public:
-    Player();
+    sf::Sprite Sprite;
+    
+    //functions
+    Player(int health = 5, int healthMax = 5, float speed = 0.2f, float healCooldown = 10.0f);
     void Move();
     void Damaged();
     void Heal();
@@ -25,7 +27,6 @@ public:
     int getHealth();
     int getHealthMax();
     bool getDashing();
-    sf::Sprite getSprite();
 };
 
 #endif

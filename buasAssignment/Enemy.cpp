@@ -23,10 +23,11 @@ Enemy::Enemy(EnemyType spawntype, const sf::Texture& Textures) {
         damage = 1;
         speed = 0.15f;
         Sprite.setTexture(Textures);
-        Sprite.scale(2.5, 2.5);
+        Sprite.scale(3, 3);
         xIndex = 0;
         yIndex = 13;
         Sprite.setTextureRect(sf::IntRect(xIndex * 32, yIndex * 32, 32, 32));
+        Sprite.setOrigin(16, 18);
         break;
 
     case Shooter:
@@ -36,10 +37,11 @@ Enemy::Enemy(EnemyType spawntype, const sf::Texture& Textures) {
         speed = 0.1f;
 
         Sprite.setTexture(Textures);
-        Sprite.scale(3, 3);
+        Sprite.scale(4, 4);
         xIndex = 0;
         yIndex = 0;
         Sprite.setTextureRect(sf::IntRect(xIndex * 32, yIndex * 32, 32, 32));
+        Sprite.setOrigin(16, 20);
         break;
 
     case Elite:
@@ -49,10 +51,11 @@ Enemy::Enemy(EnemyType spawntype, const sf::Texture& Textures) {
         speed = 0.2f;
 
         Sprite.setTexture(Textures);
-        Sprite.scale(4, 4);
+        Sprite.scale(5, 5);
         xIndex = 0;
         yIndex = 6;
         Sprite.setTextureRect(sf::IntRect(xIndex * 32, yIndex * 32, 32, 32));
+        Sprite.setOrigin(16, 24);
         break;
 
     default:
@@ -60,12 +63,13 @@ Enemy::Enemy(EnemyType spawntype, const sf::Texture& Textures) {
         //[SELF NOTE]  DESPAWN ENEMY IF DEFAULT CALLED (shouldn't happen tho)
         break;
     }
+
 }
 
-void Enemy::Move(sf::Vector2f target)
+void Enemy::Move(sf::Vector2f target, float delta)
 {
     sf::Vector2f movementvector = NormalizeVector(target - this->Sprite.getPosition()) * speed;
-    this->Sprite.setPosition(this->Sprite.getPosition() + movementvector);
+    this->Sprite.setPosition(this->Sprite.getPosition() + movementvector *delta);
 }
 void Enemy::Attack(sf::Vector2f target)
 {

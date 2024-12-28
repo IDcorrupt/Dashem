@@ -20,7 +20,7 @@ public:
     
     //functions
     Player(int health = 5, int healthMax = 5, float speed = 0.2f, float healCooldown = 10.0f);
-    void Move();
+    sf::Vector2f Move(float delta);
     void Damaged();
     void Heal();
     void Die();

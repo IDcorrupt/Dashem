@@ -30,7 +30,7 @@ public:
 
     //functions
     Enemy(EnemyType spawntype, const sf::Texture& Textures);
-    void Move(sf::Vector2f target);
+    void Move(sf::Vector2f target, float delta);
     void Attack(sf::Vector2f target);
     void Damaged();
     void Die();

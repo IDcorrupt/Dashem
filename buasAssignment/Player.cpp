@@ -11,11 +11,13 @@ Player::Player(int health, int healthMax, float speed, float healCooldown)
     {
         std::cout << "player texture set successfully..." << std::endl;
         Sprite.setTexture(Texture);
-        Sprite.scale(sf::Vector2f(3, 3));
+        Sprite.scale(sf::Vector2f(4, 4));
         //selecting sprite from loaded spritesheet
         int xIndex = 0;
         int yIndex = 0;
         Sprite.setTextureRect(sf::IntRect(xIndex * 32, yIndex * 32, 32, 32));
+        
+        Sprite.setOrigin(16, 24);
     }
     else
     {
@@ -24,7 +26,7 @@ Player::Player(int health, int healthMax, float speed, float healCooldown)
 }
 
 //functions
-void Player::Move() 
+sf::Vector2f Player::Move(float delta) 
 {
     //get inputs & record displacement
     sf::Vector2f displacement;
@@ -39,8 +41,12 @@ void Player::Move()
 
     //sprite facing
     // [SELF NOTE]  |  negative scale didnt work -> do this later when you know how
+    // 
     //apply movement
-    Sprite.setPosition(Sprite.getPosition() + displacement);
+    return -displacement*delta;
+    
+    // [REDUNDANT]  |  old movement apply
+    //Sprite.setPosition(Sprite.getPosition() + displacement);
 }
 void Player::Damaged() 
 {

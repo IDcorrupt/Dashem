@@ -1,12 +1,2 @@
 ﻿  main.cpp
-sfml-window-s-d.lib(Window.obj) : warning LNK4099: PDB '' was not found with 'sfml-window-s-d.lib(Window.obj)' or at ''; linking object as if no debug info
-sfml-window-s-d.lib(WindowBase.obj) : warning LNK4099: PDB '' was not found with 'sfml-window-s-d.lib(WindowBase.obj)' or at ''; linking object as if no debug info
-sfml-window-s-d.lib(JoystickImpl.obj) : warning LNK4099: PDB '' was not found with 'sfml-window-s-d.lib(JoystickImpl.obj)' or at ''; linking object as if no debug info
-sfml-window-s-d.lib(VulkanImplWin32.obj) : warning LNK4099: PDB '' was not found with 'sfml-window-s-d.lib(VulkanImplWin32.obj)' or at ''; linking object as if no debug info
-sfml-window-s-d.lib(WindowImplWin32.obj) : warning LNK4099: PDB '' was not found with 'sfml-window-s-d.lib(WindowImplWin32.obj)' or at ''; linking object as if no debug info
-sfml-window-s-d.lib(WglContext.obj) : warning LNK4099: PDB '' was not found with 'sfml-window-s-d.lib(WglContext.obj)' or at ''; linking object as if no debug info
-sfml-graphics-s-d.lib(Image.obj) : warning LNK4099: PDB '' was not found with 'sfml-graphics-s-d.lib(Image.obj)' or at ''; linking object as if no debug info
-sfml-graphics-s-d.lib(ImageLoader.obj) : warning LNK4099: PDB '' was not found with 'sfml-graphics-s-d.lib(ImageLoader.obj)' or at ''; linking object as if no debug info
-sfml-graphics-s-d.lib(Shader.obj) : warning LNK4099: PDB '' was not found with 'sfml-graphics-s-d.lib(Shader.obj)' or at ''; linking object as if no debug info
-sfml-graphics-s-d.lib(Texture.obj) : warning LNK4099: PDB '' was not found with 'sfml-graphics-s-d.lib(Texture.obj)' or at ''; linking object as if no debug info
   buasAssignment.vcxproj -> C:\Vault\0_Personal\buas\game-practice\buasAssignment\x64\Debug\buasAssignment.exe

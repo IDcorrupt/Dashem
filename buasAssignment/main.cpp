@@ -87,7 +87,7 @@ int main()
     settings.antialiasingLevel = 8;
     
     //window
-    sf::RenderWindow window(sf::VideoMode(1280, 720), "buasAssignment", sf::Style::Fullscreen, settings);
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "buasAssignment", sf::Style::Fullscreen, settings);
     //===============INITIALIZE===============
     
     std::cout << "Initalizing program, viewport resolution is: " << window.getSize().x << "x" << window.getSize().y << std::endl;
@@ -114,6 +114,7 @@ int main()
             case sf::Event::KeyPressed:
                 if (event.key.code == sf::Keyboard::Escape) 
                 {
+                    return 0;   //[TEMP] CLOSES GAME
                     if (gameRunning) 
                     {
                         //OPEN MENU
@@ -140,11 +141,11 @@ int main()
         }
 
 
+        //for pause control
         if (gameRunning) 
         {
             
             for (Enemy& enemy : controller.enemies) {
-                //std::cout << enemy.Sprite.getPosition().x << " | " << enemy.Sprite.getPosition().y << std::endl;
                 enemy.Move(player.Sprite.getPosition());
             }
             
@@ -158,13 +159,8 @@ int main()
             
             
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-            
+
                 controller.Spawn(player.Sprite.getPosition(), window.getSize());
-            }
-            
-            
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-                controller.enemies[0].Sprite.setPosition(controller.enemies[0].Sprite.getPosition().x + 0.1f, controller.enemies[0].Sprite.getPosition().y);
             }
         }
         //================UPDATE===================

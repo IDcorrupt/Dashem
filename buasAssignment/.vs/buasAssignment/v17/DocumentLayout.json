@@ -32,7 +32,7 @@
               "RelativeDocumentMoniker": "main.cpp",
               "ToolTip": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\main.cpp",
               "RelativeToolTip": "main.cpp",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAAAD4AAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAI4AAAAAAAAAAAAgwJkAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-12-18T21:34:41.345Z",
               "IsPinned": true,
@@ -48,8 +48,7 @@
               "RelativeToolTip": "Enemy.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-12-27T11:21:45.106Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-27T11:21:45.106Z"
             },
             {
               "$type": "Document",
@@ -61,8 +60,7 @@
               "RelativeToolTip": "Enemy.cpp",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAAEMAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-12-25T14:02:18.598Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-25T14:02:18.598Z"
             }
           ]
         }

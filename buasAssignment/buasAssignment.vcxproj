@@ -143,19 +143,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="EnemyController.cpp" />
+    <ClCompile Include="Classes\Objects\Enemy.cpp" />
+    <ClCompile Include="Classes\Mechanics\EnemyController.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="Classes\Mechanics\Menu.cpp" />
+    <ClCompile Include="Classes\Objects\Player.cpp" />
+    <ClCompile Include="Classes\Objects\Projectile.cpp" />
+    <ClCompile Include="Classes\Mechanics\Ui.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="EnemyController.h" />
-    <ClInclude Include="Menu.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Projectile.h" />
+    <ClInclude Include="Classes\Objects\Enemy.h" />
+    <ClInclude Include="Classes\Mechanics\EnemyController.h" />
+    <ClInclude Include="Classes\Mechanics\Menu.h" />
+    <ClInclude Include="Classes\Objects\Player.h" />
+    <ClInclude Include="Classes\Objects\Projectile.h" />
+    <ClInclude Include="Classes\Mechanics\Ui.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

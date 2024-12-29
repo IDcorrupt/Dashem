@@ -1,6 +1,7 @@
-C:\Vault\0_Personal\buas\game-practice\buasAssignment\Enemy.cpp;C:\Vault\0_Personal\buas\game-practice\buasAssignment\buasAssignment\x64\Debug\Enemy.obj
-C:\Vault\0_Personal\buas\game-practice\buasAssignment\EnemyController.cpp;C:\Vault\0_Personal\buas\game-practice\buasAssignment\buasAssignment\x64\Debug\EnemyController.obj
+C:\Vault\0_Personal\buas\game-practice\buasAssignment\Classes\Objects\Enemy.cpp;C:\Vault\0_Personal\buas\game-practice\buasAssignment\buasAssignment\x64\Debug\Enemy.obj
+C:\Vault\0_Personal\buas\game-practice\buasAssignment\Classes\Mechanics\EnemyController.cpp;C:\Vault\0_Personal\buas\game-practice\buasAssignment\buasAssignment\x64\Debug\EnemyController.obj
 C:\Vault\0_Personal\buas\game-practice\buasAssignment\main.cpp;C:\Vault\0_Personal\buas\game-practice\buasAssignment\buasAssignment\x64\Debug\main.obj
-C:\Vault\0_Personal\buas\game-practice\buasAssignment\Menu.cpp;C:\Vault\0_Personal\buas\game-practice\buasAssignment\buasAssignment\x64\Debug\Menu.obj
-C:\Vault\0_Personal\buas\game-practice\buasAssignment\Player.cpp;C:\Vault\0_Personal\buas\game-practice\buasAssignment\buasAssignment\x64\Debug\Player.obj
-C:\Vault\0_Personal\buas\game-practice\buasAssignment\Projectile.cpp;C:\Vault\0_Personal\buas\game-practice\buasAssignment\buasAssignment\x64\Debug\Projectile.obj
+C:\Vault\0_Personal\buas\game-practice\buasAssignment\Classes\Mechanics\Menu.cpp;C:\Vault\0_Personal\buas\game-practice\buasAssignment\buasAssignment\x64\Debug\Menu.obj
+C:\Vault\0_Personal\buas\game-practice\buasAssignment\Classes\Objects\Player.cpp;C:\Vault\0_Personal\buas\game-practice\buasAssignment\buasAssignment\x64\Debug\Player.obj
+C:\Vault\0_Personal\buas\game-practice\buasAssignment\Classes\Objects\Projectile.cpp;C:\Vault\0_Personal\buas\game-practice\buasAssignment\buasAssignment\x64\Debug\Projectile.obj
+C:\Vault\0_Personal\buas\game-practice\buasAssignment\Classes\Mechanics\Ui.cpp;C:\Vault\0_Personal\buas\game-practice\buasAssignment\buasAssignment\x64\Debug\Ui.obj

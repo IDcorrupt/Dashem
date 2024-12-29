@@ -1,115 +1,29 @@
-﻿#include <SFML/Graphics.hpp>
+﻿#define _WIN32_WINNT 0x0500
+#include <windows.h>
+#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
 #include <vector>
 #include <math.h>
-#include "Player.h"
-#include "Enemy.h"
-#include "EnemyController.h"
-
+#include "Classes/Objects/Player.h"
+#include "Classes/Objects/Enemy.h"
+#include "Classes/Mechanics/EnemyController.h"
+#include "Classes/Mechanics/Menu.h"
+#include "Classes/Mechanics/Ui.h"
 
 
 
 bool gameRunning = false;
-
-//class EnemyController {
-//    //values and components
-//private:
-//    int eliteCounter = 0;
-//public:
-//    float spawnTimer;
-//    float spawnCooldown;
-//    std::vector<Enemy> enemies;
-//    sf::Texture Textures;
-//
-//    //functions
-//    EnemyController(float spawnTimer = 10000.0f) {
-//        EnemyController::spawnTimer = spawnTimer;
-//        EnemyController::spawnCooldown = 0;
-//        if (Textures.loadFromFile("Assets/TECH_DUNGEON_ROUGELITE/Enemies/No Outlines/enemies_x1.png"))
-//            std::cout << "Enemy textures loaded successfully..." << std::endl;
-//        else
-//            std::cout << "Enemy textures failed to load" << std::endl;
-//        
-//        std::cout << "controller initialized" << std::endl;
-//    }
-//
-//    //need windowsize for viewport -> spawning enemies out of view
-//    void Spawn(sf::Vector2f playerpos, sf::Vector2f gameResolution) {
-//        
-//        sf::Vector2f spawnvector;
-//        //convert res values to int because floats break rand()
-//        int resX = gameResolution.x;
-//        int resY = gameResolution.y;
-//        //determine spawn location 
-//        switch (rand() % 4)
-//        {
-//        case 0:
-//            //top
-//            spawnvector = sf::Vector2f(rand() % resX + 1, -50);
-//            break;
-//
-//        case 1:
-//            //left
-//            spawnvector = sf::Vector2f(-50, rand() % resY + 1);
-//            break;
-//
-//        case 2:
-//            //bottom
-//            spawnvector = sf::Vector2f(rand() % resX + 1, resY + 50);
-//            break;
-//
-//        case 3:
-//            //right
-//            spawnvector = sf::Vector2f(resX + 50, rand() % resY + 1);
-//            break;
-//        default:
-//            std::cout << "how. (pt2)" << std::endl;
-//            break;
-//        }
-//        
-//        //actual spawning
-//        std::cout << "spawning enemy" << std::endl;
-//        if (eliteCounter == 5) {
-//            //spawn elite
-//            std::cout << "elite spawned, resetting counter: " << std::endl;
-//            enemies.push_back(Enemy(Enemy::EnemyType::Elite, Textures));
-//            spawnCooldown = spawnTimer;
-//            eliteCounter = 0;
-//        }
-//        else {
-//            //spawn normal enemy
-//            if (rand() % 2 == 0) {
-//                std::cout << "spawning Normal, counter is at " << std::endl;
-//                enemies.push_back(Enemy(Enemy::EnemyType::Normal, Textures));
-//                spawnCooldown = spawnTimer;
-//            }
-//            else {
-//                //shooter
-//                std::cout << "spawning shooter, counter is at" << std::endl;
-//                enemies.push_back(Enemy(Enemy::EnemyType::Shooter, Textures));
-//                spawnCooldown = spawnTimer;
-//            }
-//            eliteCounter++; 
-//            std::cout << eliteCounter << std::endl;
-//        }
-//
-//        //set position
-//        enemies[enemies.size() - 1].Sprite.setPosition(spawnvector);
-//    }
-//    void TimerTick(float delta, sf::Vector2f playerpos, sf::Vector2f gameResolution) {
-//        if (spawnCooldown > 0)
-//            spawnCooldown -= delta;
-//        else
-//            Spawn(playerpos, gameResolution);
-//    }
-//};
-
-
+bool paused = false;
 
 int main()
 {
+
+    //[DEBUG]  |  uncomment those 2 lines when building to release, they hide console
+    //HWND hWnd = GetConsoleWindow();
+    //ShowWindow(hWnd, SW_HIDE);
+
     //[SELF NOTE]  |  REMOVE AFTER ADDING MENU PLZ TY
     gameRunning = true;
        
@@ -129,7 +43,7 @@ int main()
     //set window position (so it looks centered)
     window.setPosition(sf::Vector2i((displayResolution.width - window.getSize().x) / 2, (displayResolution.height - window.getSize().y) / 2));
     
-    window.setFramerateLimit(144);
+    window.setFramerateLimit(60);
     //===============INITIALIZE===============
     
     std::cout << "Initalizing program..." << std::endl;
@@ -138,26 +52,33 @@ int main()
     std::cout << "game resolution is: " << resolution.x << "x" << resolution.y << std::endl;
 
     //==================LOAD==================
+
     Player player = Player();
     EnemyController controller = EnemyController();
+    Menu menu = Menu();
+    Ui ui = Ui();
     player.Sprite.setPosition(resolution.x/2, resolution.y/2);
 
-
-    //==================LOAD==================
     bool fullScreen = false;
     sf::Clock clock;
+
+    //open menu in main menu mode
+    menu.Toggle(window.getSize(), true);
+    //==================LOAD==================
 
     //main game loop
     while (window.isOpen()) 
     {
     //================UPDATE==================
+    
         //DELTATIME
         sf::Time deltaTimeTimer = clock.restart();
         float delta = deltaTimeTimer.asMilliseconds();
-        //std::cout << deltaTimer.asMilliseconds() << std::endl;
+        sf::Vector2i mousePos = sf::Mouse::getPosition();
 
-
+        // store/update window focus state
         bool windowFocus = window.hasFocus();
+        
         sf::Event event;
         //event loop
         while (window.pollEvent(event)) 
@@ -170,23 +91,23 @@ int main()
                 if (event.key.code == sf::Keyboard::Escape) 
                 {
                     return 0;   //[TEMP]  |  CLOSES GAME
-                    if (gameRunning) 
+                    if (paused) 
                     {
                         //OPEN MENU
-                        gameRunning = false;
+                        menu.Toggle(window.getSize(), false);
+                        paused = true;
                     }
                     else 
                     {
+                        menu.Toggle(window.getSize(), false);
                         //CLOSE MENU
-                        gameRunning = true;
+                        paused = false;
                     }
                 }
                 //fullscreen toggle
                 else if (event.key.code == sf::Keyboard::F11) {
                     //closing current window
                     window.close();
-
-
 
                     //reopening window according to new viewmode
                     if (!fullScreen) {
@@ -202,6 +123,9 @@ int main()
                         fullScreen = false;
                     }
                 }
+                else if (event.key.code == sf::Keyboard::E) {
+                    player.Damaged();
+                }
                 break;
 
             case sf::Event::Closed:
@@ -214,11 +138,13 @@ int main()
 
         }
         //pause game when not in focus
-        if (windowFocus)
-            gameRunning = true;
-        else
+        if (!windowFocus && gameRunning && false) { //[DEBUG]  |  false added so it doesn't do anything, remove when menu works
+            menu.Toggle(window.getSize(), false);
             gameRunning = false;
-        
+        }
+
+        //Ui update
+        ui.Update(player.getHealth(), player.getHealthMax(), player.getDashDelta(), player.getDashCooldown());
 
 
 
@@ -226,21 +152,51 @@ int main()
         //INGAME
         if (gameRunning) 
         {
+        //dash vector calculations
+            // get window position
+            sf::Vector2i windowPos = window.getPosition();
+
+            // mouse position relative to window
+            sf::Vector2i mousePosWindow = mousePos - windowPos;
+
+            // res scaling (needed to calculate player position)
+            sf::Vector2u windowSize = window.getSize();
+            float scaleX = 1920.0f / static_cast<float>(windowSize.x);
+            float scaleY = 1080.0f / static_cast<float>(windowSize.y); 
+
+            // scale mouse pos to ingame resolution (required for windowed mode, since window is 720p, but game is 1080p)
+            sf::Vector2f mousePosGame(
+                mousePosWindow.x * scaleX,
+                mousePosWindow.y * scaleY
+            );
+
+            //final dash vector
+            sf::Vector2f dashDir(mousePosGame - player.Sprite.getPosition());
+
+            //windowed mode correction
+            if (!fullScreen)
+                dashDir = dashDir + sf::Vector2f(-13, -60);
+
+            //stops player, enemies and timers if player is dead (for animation)
+            if (!player.dead) {
+
             //player movement
-            sf::Vector2f playerMovement = player.Move(delta);
+            sf::Vector2f playerMovement = player.Move(delta, dashDir);
             
-            //enemy movements
-            for (Enemy& enemy : controller.enemies) {
+                //enemy movements
+                for (Enemy& enemy : controller.enemies) {
 
-                enemy.Move(player.Sprite.getPosition(), delta);
-                //apply player movement
-                enemy.Sprite.setPosition(enemy.Sprite.getPosition() + playerMovement);
+                    enemy.Move(player.Sprite.getPosition(), delta);
+                    //apply player movement
+                    enemy.Sprite.setPosition(enemy.Sprite.getPosition() + playerMovement);
+                }
+            
+                //Cooldowns
+                controller.TimerTick(delta, player.Sprite.getPosition(), resolution);
+                player.HealTick(delta);
             }
-            
-
-            //Cooldowns
-            controller.TimerTick(delta, player.Sprite.getPosition(), resolution);
-            
+         //   else
+         //       gameRunning = false;
             
 
         }
@@ -249,19 +205,36 @@ int main()
         
         
         //=================DRAW====================
+
+
+
         window.clear(sf::Color::Color(30,30,30,1));
 
-        //draw all enemies
-        for (Enemy& enemy : controller.enemies)
-        {
-            window.draw(enemy.Sprite);
-            //[TBD]  |  if enemy is shooter, draw all of its projectiles
+        //menu stuff
+
+
+
+        //INGAME
+        if (gameRunning) {
+            //ui
+            window.draw(ui.healthBar);
+            window.draw(ui.dashBar);
+            window.draw(ui.healthTracker);
+            window.draw(ui.dashTracker);
+
+            //draw all enemies
+            for (Enemy& enemy : controller.enemies)
+            {
+                window.draw(enemy.Sprite);
+                //[TBD]  |  if enemy is shooter, draw all of its projectiles
+            }
+
+
+
+            //draw player (last so z index is highest)
+            window.draw(player.Sprite);
         }
-
-
-
-        //draw player (last so z index is highest)
-        window.draw(player.Sprite);
+        
 
         window.display();
         //=================DRAW====================

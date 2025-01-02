@@ -12,7 +12,7 @@ sf::Vector2f NormalizedVector(sf::Vector2f vector) {
 
 
 //contructor
-Player::Player(int health, int healthMax, float speed, float healCooldown, float dashCooldown)
+Player::Player(sf::Vector2f gameRes)
 {
     Player::health = health;
     Player::healthMax = healthMax;
@@ -22,7 +22,14 @@ Player::Player(int health, int healthMax, float speed, float healCooldown, float
     Player::dashCooldown = dashCooldown;
     Player::dashDelta = 0;
     Player::dead = false;
+    Player::sprite.setPosition(gameRes.x / 2, gameRes.y / 2);
 
+    hitBox.setSize(sf::Vector2f(50, 70));
+    hitBox.setOrigin(hitBox.getSize().x / 2, hitBox.getSize().y / 2);
+    hitBox.setFillColor(sf::Color::Transparent);
+    hitBox.setOutlineColor(sf::Color::Red);
+    hitBox.setOutlineThickness(2);
+    hitBox.setPosition(sprite.getPosition());
 
     if (Texture.loadFromFile("Assets/TECH_DUNGEON_ROUGELITE/Players/No_Outline/player_blue_x1.png"))
     {
@@ -57,7 +64,7 @@ sf::Vector2f Player::Move(float delta, sf::Vector2f dashDir)
         }
 
         //reduce velocity
-        float reduction = speed / 3;
+        float reduction = 0.2f;
         if (dashVelocity.x > 0) {
             dashVelocity.x = std::max(0.0f, dashVelocity.x - reduction);
         }
@@ -79,8 +86,7 @@ sf::Vector2f Player::Move(float delta, sf::Vector2f dashDir)
         //only allow movement if not currently dashing (attacking)
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !dashing && !(dashDelta > 0)) {
             //initiate dash
-            std::cout << "Inin" << std::endl;
-            dashVelocity = NormalizedVector(dashDir) * (speed * 10);
+            dashVelocity = NormalizedVector(dashDir) * (speed * 15);
             dashing = true;
         }
         if (dashDelta > 0)

@@ -6,14 +6,14 @@
 class Player {
 private:
     //values
-    int healthMax;
-    int health;
-    float speed;
-    bool dashing = false;   //attack
-    float healCooldown;     //value
-    float healDelta;        //counter
-    float dashCooldown;     //value
-    float dashDelta;        //counter
+    int healthMax = 5;
+    int health = healthMax;
+    float speed = 0.2f;
+    bool dashing = false;           //attack
+    float healCooldown = 10000.0f;  //value
+    float healDelta = 0;            //counter
+    float dashCooldown = 1000.0f;   //value
+    float dashDelta = 0;            //counter
     sf::Vector2f dashVelocity = sf::Vector2f(0,0);
     sf::Texture Texture;
     sf::RectangleShape hitBox;
@@ -23,8 +23,7 @@ public:
     bool dead = false;
 
     //functions
-    Player(int health = 5, int healthMax = 5, float speed = 0.2f, float healCooldown = 10000.0f, float dashCooldown = 1000.0f);
-    void Load(sf::Vector2f gameRes);
+    Player(sf::Vector2f gameRes);
     sf::Vector2f Move(float delta, sf::Vector2f dashDir);
     void Damaged();
     void HealTick(float delta);

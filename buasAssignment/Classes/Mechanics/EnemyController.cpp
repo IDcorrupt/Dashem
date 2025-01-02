@@ -58,14 +58,14 @@ void EnemyController::Spawn(sf::Vector2f playerpos, sf::Vector2f gameResolution)
     }
     else {
         //spawn normal enemy
-        if (rand() % 2 == 0) {
-            std::cout << "spawning Normal, counter is at " << std::endl;
+        if (rand() % 2 == 0 && false) {
+            printf("spawning Normal, counter is at ");
             enemies.push_back(Enemy(Enemy::EnemyType::Normal, Textures));
             spawnCooldown = spawnTimer;
         }
         else {
             //shooter
-            std::cout << "spawning shooter, counter is at" << std::endl;
+            printf("spawning shooter, counter is at ");
             enemies.push_back(Enemy(Enemy::EnemyType::Shooter, Textures));
             spawnCooldown = spawnTimer;
         }

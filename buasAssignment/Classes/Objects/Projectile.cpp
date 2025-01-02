@@ -10,16 +10,20 @@ Projectile::Projectile(){
 	}
 
 }
-void Projectile::Shoot(sf::Vector2f target) {
-	sprite.setPosition(sprite.getPosition() + target * speed);
+void Projectile::Shoot(float delta, sf::Vector2f playerMovement) {
+	sprite.setPosition(sprite.getPosition() + flyVector * speed * delta + playerMovement);
+	
 }
 
 void Projectile::Explode() {
-	//if touching player
+	printf("exploded");
+	hit = true;
 }
 
 void Projectile::Draw(sf::RenderWindow& window)
 {
 	window.draw(sprite);
 }
+
+void Projectile::setVector(sf::Vector2f target) { flyVector = target; }
 

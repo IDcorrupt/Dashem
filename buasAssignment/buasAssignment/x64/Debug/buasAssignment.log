@@ -1,3 +1,2 @@
-﻿  Player.cpp
-sfml-graphics-s-d.lib(Font.obj) : warning LNK4099: PDB '' was not found with 'sfml-graphics-s-d.lib(Font.obj)' or at ''; linking object as if no debug info
+﻿  Projectile.cpp
   buasAssignment.vcxproj -> C:\Vault\0_Personal\buas\game-practice\buasAssignment\x64\Debug\buasAssignment.exe

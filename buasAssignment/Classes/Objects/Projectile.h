@@ -8,14 +8,17 @@ private:
 	//stats
 	float speed = 0.5f;
 	//components
+	sf::Vector2f flyVector;
 	sf::Texture Texture;
 public:
 	sf::Sprite sprite;
+	bool hit = false;
 	//functions
 	Projectile();
-	void Shoot(sf::Vector2f target);
+	void Shoot(float delta, sf:: Vector2f playerMovement);
 	void Explode();
 	void Draw(sf::RenderWindow& window);
+	void setVector(sf::Vector2f target);
 };
 
 #endif 

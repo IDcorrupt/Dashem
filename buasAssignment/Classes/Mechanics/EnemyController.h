@@ -15,7 +15,7 @@ class EnemyController
 		sf::Texture Textures;
 
 		//functions
-		EnemyController(float spawnTimer = 10000.0f);
+		EnemyController(float spawnTimer = 100000.0f);
 		void Spawn(sf::Vector2f playerpos, sf::Vector2f gameResolution);
 		void TimerTick(float delta, sf::Vector2f playerpos, sf::Vector2f gameResolution);
 

@@ -51,12 +51,10 @@ int main()
 
     //==================LOAD==================
 
-    Player player = Player();
+    Player player = Player(resolution);
     EnemyController controller = EnemyController();
     Ui ui = Ui();
-    player.sprite.setPosition(resolution.x/2, resolution.y/2);
 
-    bool fullScreen = false;
     sf::Clock clock;
 
     //increases spawnrate at specific intervals
@@ -72,40 +70,24 @@ int main()
         //DELTATIME
         sf::Time deltaTimeTimer = clock.restart();
         float delta = deltaTimeTimer.asMilliseconds();
+        
+        //mouse coords
         sf::Vector2i mousePos = sf::Mouse::getPosition();
 
         sf::Event event;
         //event loop
         while (window.pollEvent(event)) 
         {
-            
+         
+   
             //action switch
             switch (event.type)
             {
             case sf::Event::KeyPressed:
                 //quit on esc
-                if (event.key.code == sf::Keyboard::Escape) 
+                if (event.key.code == sf::Keyboard::Escape)
                 {
-                    return 0;
-                }
-                //fullscreen toggle
-                else if (event.key.code == sf::Keyboard::F11) {
-                    //closing current window
                     window.close();
-
-                    //reopening window according to new viewmode
-                    if (!fullScreen) {
-                        window.create(sf::VideoMode(1920, 1080), "Dashem", sf::Style::Fullscreen, settings);
-                        resolution = window.getView().getSize();
-                        fullScreen = true;
-                    }
-                    else if (fullScreen) {
-                        window.create(sf::VideoMode(1920, 1080), "Dashem", sf::Style::Close, settings);
-                        window.setSize(sf::Vector2u(1280, 720));
-                        window.setPosition(sf::Vector2i((displayResolution.width-window.getSize().x) /2, (displayResolution.height - window.getSize().y) / 2));
-                        resolution = window.getView().getSize();
-                        fullScreen = false;
-                    }
                 }
                 break;
 
@@ -148,10 +130,6 @@ int main()
 
             //final dash vector
             sf::Vector2f dashDir(mousePosGame - player.sprite.getPosition());
-
-            //windowed mode correction
-            if (!fullScreen)
-                dashDir = dashDir + sf::Vector2f(-13, -60);
         //
         
             //stops player, enemies and timers if player is dead (for animation)
@@ -159,13 +137,10 @@ int main()
 
                 //player movement
                 sf::Vector2f playerMovement = player.Move(delta, dashDir);
-                std::cout << "player move: " << playerMovement.x << "," << playerMovement.y << std::endl;
+
                 //enemy movements
                 for (Enemy& enemy : controller.enemies) {
-
-                    enemy.Move(player.sprite.getPosition(), delta);
-                    //apply player movement
-                    enemy.sprite.setPosition(enemy.sprite.getPosition() + playerMovement);
+                    enemy.Update(player.sprite.getPosition(), delta, playerMovement);
                 }
             
                 //Cooldowns
@@ -178,8 +153,6 @@ int main()
                     difficultyClock.restart();
                 }
             }
-         //   else
-         //       gameRunning = false;
             
 
         }

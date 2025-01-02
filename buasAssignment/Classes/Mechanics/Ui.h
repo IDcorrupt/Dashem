@@ -13,6 +13,7 @@ public:
 	Ui();
 	void Update(float health, float healthMax, float dashDelta, float dashCooldown);
 	void Toggle(bool mode);
+	void Draw(sf::RenderWindow& window);
 };
 
 #endif

@@ -42,3 +42,10 @@ void Ui::Update(float health, float healthMax, float dashDelta, float dashCooldo
 void Ui::Toggle(bool mode) {
 
 }
+
+void Ui::Draw(sf::RenderWindow& window) {
+	window.draw(healthBar);
+	window.draw(dashBar);
+	window.draw(healthTracker);
+	window.draw(dashTracker);
+}

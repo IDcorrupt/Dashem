@@ -74,7 +74,7 @@ void EnemyController::Spawn(sf::Vector2f playerpos, sf::Vector2f gameResolution)
     }
 
     //set position
-    enemies[enemies.size() - 1].Sprite.setPosition(spawnvector);
+    enemies[enemies.size() - 1].sprite.setPosition(spawnvector);
 }
 
 

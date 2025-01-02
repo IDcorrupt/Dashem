@@ -22,17 +22,20 @@ Player::Player(int health, int healthMax, float speed, float healCooldown, float
     Player::dashCooldown = dashCooldown;
     Player::dashDelta = 0;
     Player::dead = false;
+
+
     if (Texture.loadFromFile("Assets/TECH_DUNGEON_ROUGELITE/Players/No_Outline/player_blue_x1.png"))
     {
         std::cout << "player texture set successfully..." << std::endl;
-        Sprite.setTexture(Texture);
-        Sprite.scale(sf::Vector2f(4, 4));
+        sprite.setTexture(Texture);
+        sprite.scale(sf::Vector2f(4, 4));
         //selecting sprite from loaded spritesheet
         int xIndex = 0;
         int yIndex = 0;
-        Sprite.setTextureRect(sf::IntRect(xIndex * 32, yIndex * 32, 32, 32));
+        sprite.setTextureRect(sf::IntRect(xIndex * 32, yIndex * 32, 32, 32));
         
-        Sprite.setOrigin(16, 24);
+        sprite.setOrigin(16, 24);
+
     }
     else
     {
@@ -46,7 +49,7 @@ sf::Vector2f Player::Move(float delta, sf::Vector2f dashDir)
     if (dashing) {
 
         //exit dash if slow enough
-        if (std::sqrt(dashVelocity.x * dashVelocity.x + dashVelocity.y * dashVelocity.y) < 1) {
+        if (std::sqrt(dashVelocity.x * dashVelocity.x + dashVelocity.y * dashVelocity.y) < 1.2) {
             dashing = false;
             dashVelocity = sf::Vector2f(0, 0);
             dashDelta = dashCooldown;
@@ -76,6 +79,7 @@ sf::Vector2f Player::Move(float delta, sf::Vector2f dashDir)
         //only allow movement if not currently dashing (attacking)
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !dashing && !(dashDelta > 0)) {
             //initiate dash
+            std::cout << "Inin" << std::endl;
             dashVelocity = NormalizedVector(dashDir) * (speed * 10);
             dashing = true;
         }
@@ -137,3 +141,8 @@ float Player::getDashDelta() { return dashDelta; }
 float Player::getDashCooldown() { return dashCooldown; }
 bool Player::getDashing() { return dashing; }
 
+//draw func
+void Player::Draw(sf::RenderWindow& window) {
+    window.draw(sprite);
+    window.draw(hitBox);
+}

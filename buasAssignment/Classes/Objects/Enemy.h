@@ -25,7 +25,7 @@ private:
     //components
     sf::Texture Texture;
 public:
-    sf::Sprite Sprite;
+    sf::Sprite sprite;
     std::vector<Projectile> projectiles; //for shooter type
 
     //functions
@@ -34,6 +34,7 @@ public:
     void Attack(sf::Vector2f target);
     void Damaged();
     void Die();
+    void Draw(sf::RenderWindow& window);
 
     //getters
     int getHealth();
@@ -43,6 +44,7 @@ public:
     void NormalAttack();
     void ShooterAttack(sf::Vector2f target);
     void EliteAttack();
+
 };
 
 #endif 

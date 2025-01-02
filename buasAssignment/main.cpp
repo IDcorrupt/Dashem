@@ -1,4 +1,5 @@
-﻿#define _WIN32_WINNT 0x0500
+﻿#define NOMINMAX
+#define _WIN32_WINNT 0x0500
 #include <windows.h>
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -9,13 +10,11 @@
 #include "Classes/Objects/Player.h"
 #include "Classes/Objects/Enemy.h"
 #include "Classes/Mechanics/EnemyController.h"
-#include "Classes/Mechanics/Menu.h"
 #include "Classes/Mechanics/Ui.h"
 
 
 
 bool gameRunning = false;
-bool paused = false;
 
 int main()
 {
@@ -24,7 +23,6 @@ int main()
     //HWND hWnd = GetConsoleWindow();
     //ShowWindow(hWnd, SW_HIDE);
 
-    //[SELF NOTE]  |  REMOVE AFTER ADDING MENU PLZ TY
     gameRunning = true;
        
     
@@ -55,15 +53,15 @@ int main()
 
     Player player = Player();
     EnemyController controller = EnemyController();
-    Menu menu = Menu();
     Ui ui = Ui();
-    player.Sprite.setPosition(resolution.x/2, resolution.y/2);
+    player.sprite.setPosition(resolution.x/2, resolution.y/2);
 
     bool fullScreen = false;
     sf::Clock clock;
 
-    //open menu in main menu mode
-    menu.Toggle(window.getSize(), true);
+    //increases spawnrate at specific intervals
+    sf::Clock difficultyClock;
+
     //==================LOAD==================
 
     //main game loop
@@ -76,9 +74,6 @@ int main()
         float delta = deltaTimeTimer.asMilliseconds();
         sf::Vector2i mousePos = sf::Mouse::getPosition();
 
-        // store/update window focus state
-        bool windowFocus = window.hasFocus();
-        
         sf::Event event;
         //event loop
         while (window.pollEvent(event)) 
@@ -88,21 +83,10 @@ int main()
             switch (event.type)
             {
             case sf::Event::KeyPressed:
+                //quit on esc
                 if (event.key.code == sf::Keyboard::Escape) 
                 {
-                    return 0;   //[TEMP]  |  CLOSES GAME
-                    if (paused) 
-                    {
-                        //OPEN MENU
-                        menu.Toggle(window.getSize(), false);
-                        paused = true;
-                    }
-                    else 
-                    {
-                        menu.Toggle(window.getSize(), false);
-                        //CLOSE MENU
-                        paused = false;
-                    }
+                    return 0;
                 }
                 //fullscreen toggle
                 else if (event.key.code == sf::Keyboard::F11) {
@@ -123,9 +107,6 @@ int main()
                         fullScreen = false;
                     }
                 }
-                else if (event.key.code == sf::Keyboard::E) {
-                    player.Damaged();
-                }
                 break;
 
             case sf::Event::Closed:
@@ -136,11 +117,6 @@ int main()
                 break;
             }
 
-        }
-        //pause game when not in focus
-        if (!windowFocus && gameRunning && false) { //[DEBUG]  |  false added so it doesn't do anything, remove when menu works
-            menu.Toggle(window.getSize(), false);
-            gameRunning = false;
         }
 
         //Ui update
@@ -171,29 +147,36 @@ int main()
             );
 
             //final dash vector
-            sf::Vector2f dashDir(mousePosGame - player.Sprite.getPosition());
+            sf::Vector2f dashDir(mousePosGame - player.sprite.getPosition());
 
             //windowed mode correction
             if (!fullScreen)
                 dashDir = dashDir + sf::Vector2f(-13, -60);
-
+        //
+        
             //stops player, enemies and timers if player is dead (for animation)
             if (!player.dead) {
 
-            //player movement
-            sf::Vector2f playerMovement = player.Move(delta, dashDir);
-            
+                //player movement
+                sf::Vector2f playerMovement = player.Move(delta, dashDir);
+                std::cout << "player move: " << playerMovement.x << "," << playerMovement.y << std::endl;
                 //enemy movements
                 for (Enemy& enemy : controller.enemies) {
 
-                    enemy.Move(player.Sprite.getPosition(), delta);
+                    enemy.Move(player.sprite.getPosition(), delta);
                     //apply player movement
-                    enemy.Sprite.setPosition(enemy.Sprite.getPosition() + playerMovement);
+                    enemy.sprite.setPosition(enemy.sprite.getPosition() + playerMovement);
                 }
             
                 //Cooldowns
-                controller.TimerTick(delta, player.Sprite.getPosition(), resolution);
+                controller.TimerTick(delta, player.sprite.getPosition(), resolution);
                 player.HealTick(delta);
+
+                //increase spawnrate at 1 minute intervals
+                if (difficultyClock.getElapsedTime().asSeconds() > 60 && controller.spawnTimer != 3000.0f) {
+                    controller.spawnTimer -= 1000.0f;
+                    difficultyClock.restart();
+                }
             }
          //   else
          //       gameRunning = false;
@@ -210,29 +193,19 @@ int main()
 
         window.clear(sf::Color::Color(30,30,30,1));
 
-        //menu stuff
-
-
 
         //INGAME
         if (gameRunning) {
             //ui
-            window.draw(ui.healthBar);
-            window.draw(ui.dashBar);
-            window.draw(ui.healthTracker);
-            window.draw(ui.dashTracker);
+            ui.Draw(window);
 
             //draw all enemies
             for (Enemy& enemy : controller.enemies)
-            {
-                window.draw(enemy.Sprite);
-                //[TBD]  |  if enemy is shooter, draw all of its projectiles
-            }
-
+                enemy.Draw(window);
 
 
             //draw player (last so z index is highest)
-            window.draw(player.Sprite);
+            player.Draw(window);
         }
         
 

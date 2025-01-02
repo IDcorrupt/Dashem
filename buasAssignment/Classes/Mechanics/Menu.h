@@ -3,20 +3,21 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+//[CUT]
+
 class Menu {
-private:
-	bool menuMode;
+public:
 	sf::RectangleShape startButton;
 	sf::RectangleShape endButton;
 	sf::RectangleShape quitButton;
 	sf::Text startText;
 	sf::Text endText;
 	sf::Text quitText;
-public:
 	bool visibility;
 
 	Menu();
-	void Toggle(sf::Vector2u viewPort, bool mainMenu);
+	void Mode(bool menuMode);
+	void Toggle(bool mainMenu);
 	void Start();
 	void End();
 	void Quit();

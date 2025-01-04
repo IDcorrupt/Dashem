@@ -26,7 +26,9 @@ private:
     float attackCooldown;
     float attackDelta = 0;
     bool isHurt = false;
-    bool isDead = false;
+    int textureWidth;
+    int textureHeight;
+    bool isDying = false;       //connector between alive and "isDead" -> for death animation
 
     //stuff for shooter type
     int shootAmount = 4;
@@ -40,13 +42,14 @@ private:
     sf::Vector2f hurtVelocity;
     sf::Vector2f attackVelocity;
     std::shared_ptr<sf::Texture> projTexture;
-
+    sf::IntRect textureRect;
+    sf::Clock animClock;
 public:
     //values
+    bool isDead = false;
     bool isAttacking = false;
     
     //components
-    sf::RectangleShape hitBox;
     sf::Sprite sprite;
     std::vector<Projectile> projectiles; //for shooter type
 

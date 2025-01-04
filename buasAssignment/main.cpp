@@ -52,17 +52,26 @@ int main()
 
     //==================LOAD==================
 
+    //elements
     Player player = Player(resolution);
     EnemyController controller = EnemyController();
     Ui ui = Ui();
+
+    sf::RectangleShape background(sf::Vector2f(3840, 2160));
+    background.setOrigin(background.getSize().x / 2, background.getSize().y / 2);
+    background.setPosition(player.sprite.getPosition());
+    sf::Texture groundtexture;
+    groundtexture.loadFromFile("Assets/ground_tile_x32.png");
+    groundtexture.setRepeated(true);
+    background.setTexture(&groundtexture);
+    background.setTextureRect(sf::IntRect(0, 0, 1920, 1080));
 
     sf::Clock clock;
 
     //increases spawnrate at specific intervals
     sf::Clock difficultyClock;
 
-    sf::RectangleShape rect(sf::Vector2f(100, 100));
-    rect.setPosition(300, 300);
+
     //==================LOAD==================
 
     //main game loop
@@ -145,13 +154,21 @@ int main()
                 for (Enemy& enemy : controller.enemies) {
                     enemy.Update(player.sprite.getPosition(), delta, playerMovement, player, controller.enemies);
                 }
-
-                rect.setPosition(rect.getPosition() + playerMovement);
-
+                
+                //background is 4k while game resolution is fhd -> bg moves one fhd resolution's worth of pixels in target direction when player reaches edge
+                background.setPosition(background.getPosition() + playerMovement);
+                if (background.getPosition().x >= 1920)
+                    background.setPosition(background.getPosition().x - 1920, background.getPosition().y);
+                if (background.getPosition().x <= 0)
+                    background.setPosition(background.getPosition().x + 1920, background.getPosition().y);
+                if (background.getPosition().y >= 1080)
+                    background.setPosition(background.getPosition().x, background.getPosition().y - 1080);
+                if (background.getPosition().y <= 0)
+                    background.setPosition(background.getPosition().x, background.getPosition().y + 1080);
 
             
                 //Cooldowns
-                controller.TimerTick(delta, player.sprite.getPosition(), resolution);
+                controller.Update(delta, player.sprite.getPosition(), resolution);
 
                 //increase spawnrate at 1 minute intervals
                 if (difficultyClock.getElapsedTime().asSeconds() > 60 && controller.spawnTimer != 3000.0f) {
@@ -172,9 +189,10 @@ int main()
 
 
         window.clear(sf::Color::Color(30,30,30,1));
-
+        
         //INGAME
         if (gameRunning) {
+            window.draw(background);
             //ui
             ui.Draw(window);
 
@@ -186,7 +204,6 @@ int main()
             //draw player (last so z index is highest)
             player.Draw(window);
         }
-        window.draw(rect);
 
         window.display();
         //=================DRAW====================

@@ -17,7 +17,7 @@ class EnemyController
 		//functions
 		EnemyController(float spawnTimer = 10000.0f);
 		void Spawn(sf::Vector2f playerpos, sf::Vector2f gameResolution);
-		void TimerTick(float delta, sf::Vector2f playerpos, sf::Vector2f gameResolution);
+		void Update(float delta, sf::Vector2f playerpos, sf::Vector2f gameResolution);
 
 
 

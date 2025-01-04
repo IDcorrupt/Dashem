@@ -55,10 +55,8 @@ void EnemyController::Spawn(sf::Vector2f playerpos, sf::Vector2f gameResolution)
     }
 
     //actual spawning
-    std::cout << "spawning enemy" << std::endl;
     if (eliteCounter == 5) {
         //spawn elite
-        std::cout << "elite spawned, resetting counter: " << std::endl;
         enemies.push_back(Enemy(Enemy::EnemyType::Elite, Textures, projTexture));
         spawnCooldown = spawnTimer;
         eliteCounter = 0;
@@ -66,18 +64,15 @@ void EnemyController::Spawn(sf::Vector2f playerpos, sf::Vector2f gameResolution)
     else {
         //spawn normal enemy
         if (rand() % 2 == 0) {
-            printf("spawning Normal, counter is at ");
             enemies.push_back(Enemy(Enemy::EnemyType::Normal, Textures, projTexture));
             spawnCooldown = spawnTimer;
         }
         else {
             //shooter
-            printf("spawning shooter, counter is at ");
             enemies.push_back(Enemy(Enemy::EnemyType::Shooter, Textures, projTexture));
             spawnCooldown = spawnTimer;
         }
         eliteCounter++;
-        std::cout << eliteCounter << std::endl;
     }
 
     //set position
@@ -85,9 +80,15 @@ void EnemyController::Spawn(sf::Vector2f playerpos, sf::Vector2f gameResolution)
 }
 
 
-void EnemyController::TimerTick(float delta, sf::Vector2f playerpos, sf::Vector2f gameResolution) {
+void EnemyController::Update(float delta, sf::Vector2f playerpos, sf::Vector2f gameResolution) {
     if (spawnCooldown > 0)
         spawnCooldown -= delta;
     else
         Spawn(playerpos, gameResolution);
+    
+    for (size_t i = 0; i < enemies.size(); i++)
+    {
+        if (enemies[i].isDead)
+            enemies.erase(enemies.begin() + i);
+    }
 }

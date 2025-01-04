@@ -3,32 +3,40 @@
   "WorkspaceRootPath": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|solutionrelative:Classes\\Objects\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Enemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|solutionrelative:Classes\\Objects\\Enemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Projectile.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|solutionrelative:Classes\\Objects\\Projectile.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|solutionrelative:Classes\\Objects\\Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|solutionrelative:Classes\\Objects\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Mechanics\\EnemyController.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|solutionrelative:Classes\\Mechanics\\EnemyController.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Mechanics\\Math.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|solutionrelative:Classes\\Mechanics\\Math.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|solutionrelative:Classes\\Objects\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Projectile.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|solutionrelative:Classes\\Objects\\Projectile.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Projectile.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|solutionrelative:Classes\\Objects\\Projectile.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Enemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{1B478BDC-2B4C-4790-8A8D-B794DAC03612}|buasAssignment.vcxproj|solutionrelative:Classes\\Objects\\Enemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,17 +46,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "main.cpp",
               "DocumentMoniker": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\main.cpp",
               "RelativeDocumentMoniker": "main.cpp",
               "ToolTip": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\main.cpp",
               "RelativeToolTip": "main.cpp",
-              "ViewState": "AgIAAIcAAAAAAAAAAAAiwJoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAIcAAAAAAAAAAAAAAKgAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-12-18T21:34:41.345Z",
               "IsPinned": true,
@@ -56,13 +64,39 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
+              "Title": "EnemyController.cpp",
+              "DocumentMoniker": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Mechanics\\EnemyController.cpp",
+              "RelativeDocumentMoniker": "Classes\\Mechanics\\EnemyController.cpp",
+              "ToolTip": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Mechanics\\EnemyController.cpp",
+              "RelativeToolTip": "Classes\\Mechanics\\EnemyController.cpp",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAAAcAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-04T19:58:30.243Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Math.cpp",
+              "DocumentMoniker": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Mechanics\\Math.cpp",
+              "RelativeDocumentMoniker": "Classes\\Mechanics\\Math.cpp",
+              "ToolTip": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Mechanics\\Math.cpp",
+              "RelativeToolTip": "Classes\\Mechanics\\Math.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-04T19:20:33.483Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "Enemy.h",
               "DocumentMoniker": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Enemy.h",
               "RelativeDocumentMoniker": "Classes\\Objects\\Enemy.h",
               "ToolTip": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Enemy.h",
               "RelativeToolTip": "Classes\\Objects\\Enemy.h",
-              "ViewState": "AgIAACYAAAAAAAAAAAAAADkAAABaAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-01-04T12:04:22.625Z",
               "EditorCaption": ""
@@ -75,59 +109,59 @@
               "RelativeDocumentMoniker": "Classes\\Objects\\Player.h",
               "ToolTip": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Player.h",
               "RelativeToolTip": "Classes\\Objects\\Player.h",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAACUAAAAnAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAACMAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-01-03T17:11:23.996Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Player.cpp",
-              "DocumentMoniker": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Player.cpp",
-              "RelativeDocumentMoniker": "Classes\\Objects\\Player.cpp",
-              "ToolTip": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Player.cpp",
-              "RelativeToolTip": "Classes\\Objects\\Player.cpp",
-              "ViewState": "AgIAAHUAAAAAAAAAAAAiwJEAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-01-02T11:12:39.607Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Enemy.cpp",
-              "DocumentMoniker": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Enemy.cpp",
-              "RelativeDocumentMoniker": "Classes\\Objects\\Enemy.cpp",
-              "ToolTip": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Enemy.cpp",
-              "RelativeToolTip": "Classes\\Objects\\Enemy.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFsAAABZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-01-03T17:09:57.246Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "Projectile.h",
               "DocumentMoniker": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Projectile.h",
               "RelativeDocumentMoniker": "Classes\\Objects\\Projectile.h",
               "ToolTip": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Projectile.h",
               "RelativeToolTip": "Classes\\Objects\\Projectile.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAA+AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-01-04T15:12:34.919Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
+              "Title": "Enemy.cpp",
+              "DocumentMoniker": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Enemy.cpp",
+              "RelativeDocumentMoniker": "Classes\\Objects\\Enemy.cpp",
+              "ToolTip": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Enemy.cpp",
+              "RelativeToolTip": "Classes\\Objects\\Enemy.cpp",
+              "ViewState": "AgIAABwBAAAAAAAAAAAAADABAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-03T17:09:57.246Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Player.cpp",
+              "DocumentMoniker": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Player.cpp",
+              "RelativeDocumentMoniker": "Classes\\Objects\\Player.cpp",
+              "ToolTip": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Player.cpp",
+              "RelativeToolTip": "Classes\\Objects\\Player.cpp",
+              "ViewState": "AgIAAHYAAAAAAAAAAAAlwI0AAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-02T11:12:39.607Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "Projectile.cpp",
               "DocumentMoniker": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Projectile.cpp",
               "RelativeDocumentMoniker": "Classes\\Objects\\Projectile.cpp",
               "ToolTip": "C:\\Vault\\0_Personal\\buas\\game-practice\\buasAssignment\\Classes\\Objects\\Projectile.cpp",
               "RelativeToolTip": "Classes\\Objects\\Projectile.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-01-03T17:09:37.532Z",
               "EditorCaption": ""

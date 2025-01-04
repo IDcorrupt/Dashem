@@ -14,21 +14,25 @@ private:
     float healDelta = 0;            //counter
     float dashCooldown = 1000.0f;   //value
     float dashDelta = 0;            //counter
+    int textureWidth;
+    int textureHeight;
+    bool isDying = false;       //connector between alive and "isDead" -> for death animation
 
     //components
     sf::Vector2f dashVelocity = sf::Vector2f(0, 0);
     sf::Vector2f hurtVelocity = sf::Vector2f(0, 0);
     sf::Clock hurtTimer;
     sf::Texture Texture;
+    sf::IntRect textureRect;
+    sf::Clock animClock;
 
 public:
     //values
     bool isDead = false;
-    bool isDashing = false;           //attack
+    bool isDashing = false;     //attack
     bool isHurt = false;
 
     //components
-    sf::RectangleShape hitBox;
     sf::Sprite sprite;
 
 public:
@@ -37,7 +41,6 @@ public:
     sf::Vector2f Update(float delta, sf::Vector2f dashDir, std::vector<Enemy> enemies);
     void Damaged(sf::Sprite initilaizer, bool isProjectile);
     void HealTick(float delta);
-    void Die();
     void Draw(sf::RenderWindow& window);
 
     //getters

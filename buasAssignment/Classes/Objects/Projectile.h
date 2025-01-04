@@ -11,7 +11,6 @@ private:
 	//components
 	sf::Vector2f flyVector;
 	std::shared_ptr<sf::Texture> texture;
-	sf::RectangleShape hitBox;
 public:
 	sf::Sprite sprite;
 	bool hit = false;

@@ -5,8 +5,9 @@
 
 //constructor
 Enemy::Enemy(EnemyType spawntype, const sf::Texture& Textures, std::shared_ptr<sf::Texture> projTexture) :projTexture(projTexture) {
-    int xIndex = 0;
-    int yIndex = 0;
+
+    textureWidth = 32;
+    textureHeight = 32;
     hurtTimer;
 
     switch (spawntype)
@@ -22,18 +23,9 @@ Enemy::Enemy(EnemyType spawntype, const sf::Texture& Textures, std::shared_ptr<s
         //sprite setup
         sprite.setTexture(Textures);
         sprite.scale(3, 3);
-        xIndex = 0;
-        yIndex = 13;
-        sprite.setTextureRect(sf::IntRect(xIndex * 32, yIndex * 32, 32, 32));
+        textureRect = sf::IntRect(0 * textureWidth, 12 * textureHeight, textureWidth, textureHeight);
+        sprite.setTextureRect(textureRect);
         sprite.setOrigin(16, 18);
-        
-        //hitbox setup
-        hitBox.setSize(sf::Vector2f(45, 65));
-        hitBox.setOrigin(hitBox.getSize().x / 2, hitBox.getSize().y / 2);
-        hitBox.setFillColor(sf::Color::Transparent);
-        hitBox.setOutlineColor(sf::Color::Blue);
-        hitBox.setOutlineThickness(2);
-        hitBox.setPosition(sprite.getPosition());
         break;
 
     case Shooter:
@@ -45,17 +37,9 @@ Enemy::Enemy(EnemyType spawntype, const sf::Texture& Textures, std::shared_ptr<s
 
         sprite.setTexture(Textures);
         sprite.scale(4, 4);
-        xIndex = 0;
-        yIndex = 0;
-        sprite.setTextureRect(sf::IntRect(xIndex * 32, yIndex * 32, 32, 32));
+        textureRect = sf::IntRect(0 * textureWidth, 0 * textureHeight, textureWidth, textureHeight);
+        sprite.setTextureRect(textureRect);
         sprite.setOrigin(16, 20);
-
-        hitBox.setSize(sf::Vector2f(60, 60));
-        hitBox.setOrigin(hitBox.getSize().x / 2 - 8, hitBox.getSize().y / 2 + 30);
-        hitBox.setFillColor(sf::Color::Transparent);
-        hitBox.setOutlineColor(sf::Color::Blue);
-        hitBox.setOutlineThickness(2);
-        hitBox.setPosition(sprite.getPosition());
         break;
 
     case Elite:
@@ -67,23 +51,15 @@ Enemy::Enemy(EnemyType spawntype, const sf::Texture& Textures, std::shared_ptr<s
 
         sprite.setTexture(Textures);
         sprite.scale(5, 5);
-        xIndex = 0;
-        yIndex = 6;
-        sprite.setTextureRect(sf::IntRect(xIndex * 32, yIndex * 32, 32, 32));
+        textureRect = sf::IntRect(0 * textureWidth, 6 * textureHeight, textureWidth, textureHeight);
+        sprite.setTextureRect(textureRect);
         sprite.setOrigin(16, 24);
-
-        hitBox.setSize(sf::Vector2f(150, 140));
-        hitBox.setOrigin(hitBox.getSize().x / 2 + 10, hitBox.getSize().y / 2 + 30);
-        hitBox.setFillColor(sf::Color::Transparent);
-        hitBox.setOutlineColor(sf::Color::Blue);
-        hitBox.setOutlineThickness(2);
-        hitBox.setPosition(sprite.getPosition());
         break;
 
     default:
         std::cout << "how." << std::endl;
         isDead = true;
-        //[SELF NOTE]  DESPAWN ENEMY IF DEFAULT CALLED (shouldn't happen tho)
+        //despawn enemy if defaut called (shouldn't happen because the three options are hard coded)
         break;
     }
 
@@ -91,7 +67,8 @@ Enemy::Enemy(EnemyType spawntype, const sf::Texture& Textures, std::shared_ptr<s
 
 void Enemy::Update(sf::Vector2f target, float delta, sf::Vector2f playerMovement, Player& player, std::vector<Enemy> otherEnemies)
 {
-    if (!isDead || true) { // [DEBUG]  |  temporary "|| true" so enemies don't break 
+    //only exists if not dead (else case has death anim)
+    if (!isDying) {
         //set displacement default value
         sf::Vector2f displacement = sprite.getPosition();
 
@@ -104,6 +81,7 @@ void Enemy::Update(sf::Vector2f target, float delta, sf::Vector2f playerMovement
         }
 
 
+    //if sequence represents mechanic priorities
         //check for incoming attack
         if (Math::CheckHitboxCollision(player.sprite.getGlobalBounds(), sprite.getGlobalBounds()) && player.isDashing && !isHurt) {
             //requirements: colliding with player, player is attacking, enemy isn't already attacked recently
@@ -112,6 +90,28 @@ void Enemy::Update(sf::Vector2f target, float delta, sf::Vector2f playerMovement
         //hurt knockback sequence
         else if (isHurt) {
             displacement = sprite.getPosition() + hurtVelocity * delta;
+        }
+        //despawn if dead
+        else if (health == 0) {
+            isDying = true;
+            animClock.restart();
+            switch (type)
+            {
+            case Enemy::Normal:
+                textureRect.left = 0;
+                textureRect.top = 15 * textureHeight;
+                break;
+            case Enemy::Shooter:
+                textureRect.left = 0;
+                textureRect.top = 3 * textureHeight;
+                break;
+            case Enemy::Elite:
+                textureRect.left = 0;
+                textureRect.top = 10 * textureHeight;
+                break;
+            default:
+                break;
+            }
         }
         //attack sequence
         else if (isAttacking) {
@@ -150,9 +150,8 @@ void Enemy::Update(sf::Vector2f target, float delta, sf::Vector2f playerMovement
             }
         }
         //shooter has slightly different mechanics - doesn't freeze after attacking since it is ranged -> attackdelta check at different point
-        else if(attackDelta <= 0 || type == Shooter) {
+        else if(attackDelta <= 0 || type == Shooter) {         
             //movement
-        
             sf::Vector2f movementvector = Math::NormalizeVector(target - sprite.getPosition()) * speed;
             displacement = sprite.getPosition() + movementvector * delta;
         
@@ -199,9 +198,65 @@ void Enemy::Update(sf::Vector2f target, float delta, sf::Vector2f playerMovement
         }
 
 
-        //update sprite & hitbox position
+
+        //animations (except death)
+        if (displacement == sprite.getPosition()) {
+            switch (type)
+            {
+            case Enemy::Normal:
+                textureRect.top = 12 * textureHeight;
+                textureRect.left = 0;
+                break;
+            case Enemy::Shooter:
+                textureRect.left = 0;
+                textureRect.top = 0;
+                break;
+            case Enemy::Elite:
+                textureRect.left = 0;
+                textureRect.top = 6;
+                break;
+            default:
+                break;
+            }
+        }
+        else if (animClock.getElapsedTime().asMilliseconds() > 200) {
+            animClock.restart();
+            switch (type)
+            {
+            case Enemy::Normal:
+                textureRect.top = 13 * textureHeight;
+                textureRect.left += textureWidth;
+                if (textureRect.left > (3 * textureWidth))
+                    textureRect.left = 0;
+                break;
+            case Enemy::Shooter:
+                textureRect.top = 1 * textureHeight;
+                textureRect.left += textureWidth;
+                if (textureRect.left > (3 * textureWidth))
+                    textureRect.left = 0;
+                break;
+            case Enemy::Elite:
+                textureRect.top = 8 * textureHeight;
+                textureRect.left += textureWidth;
+                if (textureRect.left > (3 * textureWidth))
+                    textureRect.left = 0;
+                break;
+            default:
+                break;
+            }
+        }
+        //update sprite texture
+        sprite.setTextureRect(textureRect);
+        //set sprite facing based on its direction
+        if(displacement.x > sprite.getPosition().x)
+            sprite.setScale(std::abs(sprite.getScale().x), sprite.getScale().y);
+        if(displacement.x < sprite.getPosition().x)
+            sprite.setScale(-(std::abs(sprite.getScale().x)), sprite.getScale().y);
+        
+        //update sprite position
         sprite.setPosition(displacement + playerMovement);
-        hitBox.setPosition(sprite.getPosition());
+
+
         //cooldowns
         if (attackDelta > 0)
             attackDelta -= delta;
@@ -219,16 +274,36 @@ void Enemy::Update(sf::Vector2f target, float delta, sf::Vector2f playerMovement
 
     }
     else {
-        //dead
+        //death animation
+        if (animClock.getElapsedTime().asMilliseconds() > 100) {
+            animClock.restart();
+            switch (type)
+            {
+            case Enemy::Normal:
+                textureRect.top = 15 * textureHeight;
+                textureRect.left += textureWidth;
+                if (textureRect.left > (8 * textureWidth))
+                    isDead = true;
+                break;
+            case Enemy::Shooter:
+                textureRect.top = 3 * textureHeight;
+                textureRect.left += textureWidth;
+                if (textureRect.left > (8 * textureWidth))
+                    isDead = true;
+                break;
+            case Enemy::Elite:
+                textureRect.top = 10 * textureHeight;
+                textureRect.left += textureWidth;
+                if (textureRect.left > (8 * textureWidth))
+                    isDead = true;
+                break;
+            default:
+                break;
+            }
+        }
+        sprite.setTextureRect(textureRect);
+        sprite.setPosition(sprite.getPosition() + playerMovement);
     }
-    
-    //debug coloring
-    if (isHurt)
-        hitBox.setOutlineColor(sf::Color::Red);
-    else if (isAttacking)
-        hitBox.setOutlineColor(sf::Color::Blue);
-    else
-        hitBox.setOutlineColor(sf::Color::Green);
 }
 
 void Enemy::Damaged(sf::Sprite initilaizer)
@@ -238,8 +313,6 @@ void Enemy::Damaged(sf::Sprite initilaizer)
     hurtTimer.restart();
     hurtVelocity = Math::NormalizeVector(sprite.getPosition() - initilaizer.getPosition()) * (speed * 15);
     health--;
-    if (health == 0)
-        isDead = true;
 }
 
 void Enemy::CancelAttack() {
@@ -281,7 +354,6 @@ bool Enemy::getHurt() { return isHurt; }
 
 void Enemy::Draw(sf::RenderWindow& window) {
     window.draw(sprite);
-    window.draw(hitBox);
     if (type == Shooter) {
         for (Projectile& bullet : projectiles) {
             bullet.Draw(window);

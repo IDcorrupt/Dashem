@@ -15,24 +15,19 @@ Player::Player(sf::Vector2f gameRes)
     Player::isDead = false;
     Player::sprite.setPosition(gameRes.x / 2, gameRes.y / 2);
     Player::hurtTimer;
+    Player::animClock;
 
-    hitBox.setSize(sf::Vector2f(50, 70));
-    hitBox.setOrigin(hitBox.getSize().x / 2, hitBox.getSize().y / 2);
-    hitBox.setFillColor(sf::Color::Transparent);
-    hitBox.setOutlineColor(sf::Color::White);
-    hitBox.setOutlineThickness(2);
-    hitBox.setPosition(sprite.getPosition());
 
     if (Texture.loadFromFile("Assets/TECH_DUNGEON_ROUGELITE/Players/No_Outline/player_blue_x1.png"))
     {
         std::cout << "player texture set successfully..." << std::endl;
+        textureWidth = 32;
+        textureHeight = 32;
+        textureRect = sf::IntRect(0 * textureWidth, 0 * textureWidth, textureWidth, textureWidth);
         sprite.setTexture(Texture);
+        sprite.setTextureRect(textureRect);
+
         sprite.scale(sf::Vector2f(4, 4));
-        //selecting sprite from loaded spritesheet
-        int xIndex = 0;
-        int yIndex = 0;
-        sprite.setTextureRect(sf::IntRect(xIndex * 32, yIndex * 32, 32, 32));
-        
         sprite.setOrigin(16, 24);
 
     }
@@ -85,7 +80,7 @@ sf::Vector2f Player::Update(float delta, sf::Vector2f dashDir, std::vector<Enemy
             }
 
             //return early, cut off all other movement
-            return -dashVelocity * delta;
+            displacement = dashVelocity;
         }
         else {
             //only allow movement if not currently dashing (attacking)
@@ -111,35 +106,63 @@ sf::Vector2f Player::Update(float delta, sf::Vector2f dashDir, std::vector<Enemy
         dashDelta -= delta;
     else
         dashDelta = 0;
-    if (isHurt && hurtTimer.getElapsedTime().asSeconds() > 0.1)
+    if (isHurt && hurtTimer.getElapsedTime().asMilliseconds() > 100)
         isHurt = false;
     HealTick(delta);
-    //debug coloring
-    if (isHurt)
-        hitBox.setOutlineColor(sf::Color::Red);
-    else if (isDashing)
-        hitBox.setOutlineColor(sf::Color::Blue);
-    else
-        hitBox.setOutlineColor(sf::Color::White);
 
+
+    //animation
+    if(isDying && animClock.getElapsedTime().asMilliseconds() > 200){
+        animClock.restart();
+        textureRect.top = 5 * textureHeight;
+        textureRect.left += textureWidth;
+        if (textureRect.left > (6 * textureWidth))
+            isDead = true;
+    }
+    else if (!isDying) {
+        if (displacement == sf::Vector2f(0, 0)) {
+            textureRect.left = 0;
+            textureRect.top = 0;
+        }
+        else if(animClock.getElapsedTime().asMilliseconds() > 225){
+            //run
+            animClock.restart();
+            textureRect.top = 3 * textureHeight;
+            textureRect.left += textureWidth;
+            if (textureRect.left > (3 * textureWidth))
+                textureRect.left = 0;
+        }
+    }
+
+    sprite.setTextureRect(textureRect);
     //apply movement
+    if (displacement.x > 0) 
+        sprite.setScale(std::abs(sprite.getScale().x), sprite.getScale().y);
+    else if (displacement.x < 0)
+        sprite.setScale(-(std::abs(sprite.getScale().x)), sprite.getScale().y);
+
     return -displacement * delta;
 
     //sprite facing
     // [SELF NOTE]  |  negative scale didnt work -> do this later when you know how
 
 }
+
 void Player::Damaged(sf::Sprite initilaizer, bool isProjectile)
 {
-    std::cout << "got hit" << std::endl;
     if (!isProjectile) {
         hurtTimer.restart();
         isHurt = true;
         hurtVelocity = Math::NormalizeVector(sprite.getPosition() - initilaizer.getPosition()) * (speed * 10);
     }
     health--;
-    if (health == 0)
-        isDead = true;
+    healDelta = healCooldown;
+    if (health == 0) {
+        animClock.restart();
+        textureRect.top = 5 * textureHeight;
+        textureRect.left = 0 * textureWidth;
+        isDying = true;
+    }
 }
 void Player::HealTick(float delta) {
     if (health == healthMax)
@@ -154,13 +177,6 @@ void Player::HealTick(float delta) {
 }
 
 
-void Player::Die() 
-{
-    //DEATH ANIMATION HERE IF I GET THERE
-    std::cout << "player instance died" << std::endl;
-    isDead = true;
-}
-
 //getters
 int Player::getHealth() { return health; }
 int Player::getHealthMax() { return healthMax; }
@@ -171,5 +187,4 @@ bool Player::getDashing() { return isDashing; }
 //draw func
 void Player::Draw(sf::RenderWindow& window) {
     window.draw(sprite);
-    window.draw(hitBox);
 }

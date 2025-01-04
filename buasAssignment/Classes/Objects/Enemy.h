@@ -2,7 +2,11 @@
 #define ENEMY_H
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <memory>
 #include "Projectile.h"
+
+class Player;
+
 
 class Enemy 
 {
@@ -13,40 +17,49 @@ public:
         Shooter,
         Elite
     };
+
 private:
     //stats
-    EnemyType type;
     int health;
     int damage;
     float speed;
     float attackCooldown;
     float attackDelta = 0;
-    bool attacking = false;
     bool isHurt = false;
-    bool dead = false;
+    bool isDead = false;
 
     //stuff for shooter type
-    int shootAmount = 1;
+    int shootAmount = 4;
     int bulletsRemaining = 0;
     float shootCooldown = 1000.0f;
     float shootDelta = 0;
-
-
+    
     //components
+    EnemyType type;
+    sf::Clock hurtTimer;
+    sf::Vector2f hurtVelocity;
     sf::Vector2f attackVelocity;
-    sf::Texture Texture;
-    sf::RectangleShape hitBox;
+    std::shared_ptr<sf::Texture> projTexture;
+
 public:
+    //values
+    bool isAttacking = false;
+    
+    //components
+    sf::RectangleShape hitBox;
     sf::Sprite sprite;
     std::vector<Projectile> projectiles; //for shooter type
 
+
+
+public:
     //functions
-    Enemy(EnemyType spawntype, const sf::Texture& Textures);
-    void Update(sf::Vector2f target, float delta, sf::Vector2f playerDisplacement);
-    void Attack(sf::Vector2f target);
-    void Damaged();
+    Enemy(EnemyType spawntype, const sf::Texture& Textures, std::shared_ptr<sf::Texture> projTexture);
+    void Update(sf::Vector2f target, float delta, sf::Vector2f playerDisplacement, Player& player, std::vector<Enemy> otherEnemies);
+    void Damaged(sf::Sprite initilaizer);
     void Die();
     void Draw(sf::RenderWindow& window);
+    void CancelAttack();
 
     //getters
     int getHealth();
@@ -57,6 +70,7 @@ public:
     void ShooterAttack(sf::Vector2f target, float delta);
     void EliteAttack(sf::Vector2f target);
 
+ 
 };
 
 #endif 

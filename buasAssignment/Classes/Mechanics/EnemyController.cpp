@@ -11,8 +11,15 @@ EnemyController::EnemyController(float spawnTimer) {
     else
         std::cout << "Enemy textures failed to load" << std::endl;
 
-    std::cout << "controller initialized" << std::endl;
-}
+    projTexture = std::make_shared<sf::Texture>();
+    if (projTexture->loadFromFile("Assets/TECH_DUNGEON_ROUGELITE/Projectiles/projectiles_x1.png")) {
+        std::cout << "Projectile texture loaded successfully..." << std::endl;
+    }
+    else {
+        std::cout << "Projectile texture failed to load" << std::endl;
+    }
+
+}   
 
 void EnemyController::Spawn(sf::Vector2f playerpos, sf::Vector2f gameResolution) {
 
@@ -52,21 +59,21 @@ void EnemyController::Spawn(sf::Vector2f playerpos, sf::Vector2f gameResolution)
     if (eliteCounter == 5) {
         //spawn elite
         std::cout << "elite spawned, resetting counter: " << std::endl;
-        enemies.push_back(Enemy(Enemy::EnemyType::Elite, Textures));
+        enemies.push_back(Enemy(Enemy::EnemyType::Elite, Textures, projTexture));
         spawnCooldown = spawnTimer;
         eliteCounter = 0;
     }
     else {
         //spawn normal enemy
-        if (rand() % 2 == 0 && false) {
+        if (rand() % 2 == 0) {
             printf("spawning Normal, counter is at ");
-            enemies.push_back(Enemy(Enemy::EnemyType::Normal, Textures));
+            enemies.push_back(Enemy(Enemy::EnemyType::Normal, Textures, projTexture));
             spawnCooldown = spawnTimer;
         }
         else {
             //shooter
             printf("spawning shooter, counter is at ");
-            enemies.push_back(Enemy(Enemy::EnemyType::Shooter, Textures));
+            enemies.push_back(Enemy(Enemy::EnemyType::Shooter, Textures, projTexture));
             spawnCooldown = spawnTimer;
         }
         eliteCounter++;

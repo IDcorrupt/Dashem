@@ -150,6 +150,7 @@
     <ClCompile Include="Classes\Objects\Player.cpp" />
     <ClCompile Include="Classes\Objects\Projectile.cpp" />
     <ClCompile Include="Classes\Mechanics\Ui.cpp" />
+    <ClCompile Include="Classes\Mechanics\Math.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classes\Objects\Enemy.h" />
@@ -158,6 +159,7 @@
     <ClInclude Include="Classes\Objects\Player.h" />
     <ClInclude Include="Classes\Objects\Projectile.h" />
     <ClInclude Include="Classes\Mechanics\Ui.h" />
+    <ClInclude Include="Classes\Mechanics\Math.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

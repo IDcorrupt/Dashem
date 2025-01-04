@@ -1,2 +1,7 @@
-﻿  Projectile.cpp
+﻿  Player.cpp
+  main.cpp
+C:\Vault\0_Personal\buas\game-practice\buasAssignment\main.cpp(75,21): warning C4244: 'initializing': conversion from 'sf::Int32' to 'float', possible loss of data
+C:\Vault\0_Personal\buas\game-practice\buasAssignment\main.cpp(108,58): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Vault\0_Personal\buas\game-practice\buasAssignment\main.cpp(108,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Generating Code...
   buasAssignment.vcxproj -> C:\Vault\0_Personal\buas\game-practice\buasAssignment\x64\Debug\buasAssignment.exe

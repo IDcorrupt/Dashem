@@ -11,6 +11,7 @@
 #include "Classes/Objects/Enemy.h"
 #include "Classes/Mechanics/EnemyController.h"
 #include "Classes/Mechanics/Ui.h"
+#include "Classes/Mechanics/Math.h"
 
 
 
@@ -60,6 +61,8 @@ int main()
     //increases spawnrate at specific intervals
     sf::Clock difficultyClock;
 
+    sf::RectangleShape rect(sf::Vector2f(100, 100));
+    rect.setPosition(300, 300);
     //==================LOAD==================
 
     //main game loop
@@ -133,19 +136,22 @@ int main()
         //
         
             //stops player, enemies and timers if player is dead (for animation)
-            if (!player.dead) {
+            if (!player.isDead) {
 
                 //player movement
-                sf::Vector2f playerMovement = player.Move(delta, dashDir);
+                sf::Vector2f playerMovement = player.Update(delta, dashDir, controller.enemies);
 
                 //enemy movements
                 for (Enemy& enemy : controller.enemies) {
-                    enemy.Update(player.sprite.getPosition(), delta, playerMovement);
+                    enemy.Update(player.sprite.getPosition(), delta, playerMovement, player, controller.enemies);
                 }
+
+                rect.setPosition(rect.getPosition() + playerMovement);
+
+
             
                 //Cooldowns
                 controller.TimerTick(delta, player.sprite.getPosition(), resolution);
-                player.HealTick(delta);
 
                 //increase spawnrate at 1 minute intervals
                 if (difficultyClock.getElapsedTime().asSeconds() > 60 && controller.spawnTimer != 3000.0f) {
@@ -153,6 +159,7 @@ int main()
                     difficultyClock.restart();
                 }
             }
+
             
 
         }
@@ -165,7 +172,6 @@ int main()
 
 
         window.clear(sf::Color::Color(30,30,30,1));
-
 
         //INGAME
         if (gameRunning) {
@@ -180,7 +186,7 @@ int main()
             //draw player (last so z index is highest)
             player.Draw(window);
         }
-        
+        window.draw(rect);
 
         window.display();
         //=================DRAW====================

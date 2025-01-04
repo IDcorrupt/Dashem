@@ -1,15 +1,6 @@
 #include "Player.h"
-
-
-sf::Vector2f NormalizedVector(sf::Vector2f vector) {
-    float magnitude = std::sqrt(vector.x * vector.x + vector.y * vector.y);
-
-    sf::Vector2f normalizedVector;
-    normalizedVector.x = vector.x / magnitude;
-    normalizedVector.y = vector.y / magnitude;
-    return normalizedVector;
-}
-
+#include "../Mechanics/Math.h"
+#include "Enemy.h"
 
 //contructor
 Player::Player(sf::Vector2f gameRes)
@@ -21,13 +12,14 @@ Player::Player(sf::Vector2f gameRes)
     Player::healDelta = 0;
     Player::dashCooldown = dashCooldown;
     Player::dashDelta = 0;
-    Player::dead = false;
+    Player::isDead = false;
     Player::sprite.setPosition(gameRes.x / 2, gameRes.y / 2);
+    Player::hurtTimer;
 
     hitBox.setSize(sf::Vector2f(50, 70));
     hitBox.setOrigin(hitBox.getSize().x / 2, hitBox.getSize().y / 2);
     hitBox.setFillColor(sf::Color::Transparent);
-    hitBox.setOutlineColor(sf::Color::Red);
+    hitBox.setOutlineColor(sf::Color::White);
     hitBox.setOutlineThickness(2);
     hitBox.setPosition(sprite.getPosition());
 
@@ -51,70 +43,107 @@ Player::Player(sf::Vector2f gameRes)
 }
 
 //functions
-sf::Vector2f Player::Move(float delta, sf::Vector2f dashDir) 
+sf::Vector2f Player::Update(float delta, sf::Vector2f dashDir, std::vector<Enemy> enemies)
 {
-    if (dashing) {
+    //set displacement default value
+    sf::Vector2f displacement(0,0);
 
-        //exit dash if slow enough
-        if (std::sqrt(dashVelocity.x * dashVelocity.x + dashVelocity.y * dashVelocity.y) < 1.2) {
-            dashing = false;
-            dashVelocity = sf::Vector2f(0, 0);
-            dashDelta = dashCooldown;
-            return sf::Vector2f(0, 0);
-        }
-
-        //reduce velocity
-        float reduction = 0.2f;
-        if (dashVelocity.x > 0) {
-            dashVelocity.x = std::max(0.0f, dashVelocity.x - reduction);
-        }
-        else {
-            dashVelocity.x = std::min(0.0f, dashVelocity.x + reduction);
-        }
-
-        if (dashVelocity.y > 0) {
-            dashVelocity.y = std::max(0.0f, dashVelocity.y - reduction);
-        }
-        else {
-            dashVelocity.y = std::min(0.0f, dashVelocity.y + reduction);
-        }
-
-        //return early, cut off all other movement
-        return -dashVelocity * delta;
+    if (isHurt) {
+        displacement = hurtVelocity;
     }
     else {
-        //only allow movement if not currently dashing (attacking)
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !dashing && !(dashDelta > 0)) {
-            //initiate dash
-            dashVelocity = NormalizedVector(dashDir) * (speed * 15);
-            dashing = true;
+        //check for incoming attacks
+        for (Enemy enemy : enemies) {
+            if (Math::CheckHitboxCollision(sprite.getGlobalBounds(), enemy.sprite.getGlobalBounds()) && enemy.isAttacking && !isDashing) {
+                Damaged(enemy.sprite, false);
+            }
         }
-        if (dashDelta > 0)
-            dashDelta -= delta;
-        else
-            dashDelta = 0;
+        if (isDashing) {
 
+            //exit dash if slow enough
+            if (std::sqrt(dashVelocity.x * dashVelocity.x + dashVelocity.y * dashVelocity.y) < 1.2) {
+                isDashing = false;
+                dashVelocity = sf::Vector2f(0, 0);
+                dashDelta = dashCooldown;
+                return sf::Vector2f(0, 0);
+            }
 
-        //get inputs & record displacement
-        sf::Vector2f displacement;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-            displacement += sf::Vector2f(0, -speed);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-            displacement += sf::Vector2f(-speed, 0);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-            displacement += sf::Vector2f(0, speed);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-            displacement += sf::Vector2f(speed, 0);
-     
-        //apply movement
-        return -displacement * delta;
-    
+            //reduce velocity
+            float reduction = 0.2f;
+            if (dashVelocity.x > 0) {
+                dashVelocity.x = std::max(0.0f, dashVelocity.x - reduction);
+            }
+            else {
+                dashVelocity.x = std::min(0.0f, dashVelocity.x + reduction);
+            }
+
+            if (dashVelocity.y > 0) {
+                dashVelocity.y = std::max(0.0f, dashVelocity.y - reduction);
+            }
+            else {
+                dashVelocity.y = std::min(0.0f, dashVelocity.y + reduction);
+            }
+
+            //return early, cut off all other movement
+            return -dashVelocity * delta;
+        }
+        else {
+            //only allow movement if not currently dashing (attacking)
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !isDashing && !(dashDelta > 0)) {
+                //initiate dash
+                dashVelocity = Math::NormalizeVector(dashDir) * (speed * 15);
+                isDashing = true;
+            }
+
+            //get inputs & record displacement
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+                displacement += sf::Vector2f(0, -speed);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+                displacement += sf::Vector2f(-speed, 0);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+                displacement += sf::Vector2f(0, speed);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+                displacement += sf::Vector2f(speed, 0);
+        }
     }
+    //cooldowns
+    if (dashDelta > 0)
+        dashDelta -= delta;
+    else
+        dashDelta = 0;
+    if (isHurt && hurtTimer.getElapsedTime().asSeconds() > 0.1)
+        isHurt = false;
+    HealTick(delta);
+    //debug coloring
+    if (isHurt)
+        hitBox.setOutlineColor(sf::Color::Red);
+    else if (isDashing)
+        hitBox.setOutlineColor(sf::Color::Blue);
+    else
+        hitBox.setOutlineColor(sf::Color::White);
+
+    //apply movement
+    return -displacement * delta;
 
     //sprite facing
     // [SELF NOTE]  |  negative scale didnt work -> do this later when you know how
+
+}
+void Player::Damaged(sf::Sprite initilaizer, bool isProjectile)
+{
+    std::cout << "got hit" << std::endl;
+    if (!isProjectile) {
+        hurtTimer.restart();
+        isHurt = true;
+        hurtVelocity = Math::NormalizeVector(sprite.getPosition() - initilaizer.getPosition()) * (speed * 10);
+    }
+    health--;
+    if (health == 0)
+        isDead = true;
 }
 void Player::HealTick(float delta) {
+    if (health == healthMax)
+        healDelta = healCooldown;
     if (health != healthMax && healDelta > 0)
         healDelta -= delta;
     else if(health < healthMax){
@@ -124,20 +153,12 @@ void Player::HealTick(float delta) {
     }
 }
 
-void Player::Damaged() 
-{
-    health--;
-    std::cout << "player damaged, health is now " << health << std::endl;
-    healDelta = healCooldown;
-    if (health == 0) {
-        Die();
-    }
-}
+
 void Player::Die() 
 {
     //DEATH ANIMATION HERE IF I GET THERE
     std::cout << "player instance died" << std::endl;
-    dead = true;
+    isDead = true;
 }
 
 //getters
@@ -145,7 +166,7 @@ int Player::getHealth() { return health; }
 int Player::getHealthMax() { return healthMax; }
 float Player::getDashDelta() { return dashDelta; }
 float Player::getDashCooldown() { return dashCooldown; }
-bool Player::getDashing() { return dashing; }
+bool Player::getDashing() { return isDashing; }
 
 //draw func
 void Player::Draw(sf::RenderWindow& window) {

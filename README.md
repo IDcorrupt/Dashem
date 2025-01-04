@@ -12,9 +12,11 @@ You can restart the game upon death by pressing ENTER.
 Links:
 SFML (ver. 2.6.1) - graphics library used
 - https://www.sfml-dev.org
+
 Assets used:
 - https://trevor-pupkin.itch.io/tech-dungeon-roguelite
 - https://yaninyunus.itch.io/neo-zero-cyberpunk-city-tileset
+
 Tutorials used:
 - https://www.sfml-dev.org/tutorials/2.6/
 - https://www.youtube.com/playlist?list=PLs6oRBoE2-Q_fX_rzraQekRoL7Kr7s5xi

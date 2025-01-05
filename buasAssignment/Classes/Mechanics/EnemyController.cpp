@@ -6,13 +6,13 @@
 EnemyController::EnemyController(float spawnTimer) {
     EnemyController::spawnTimer = spawnTimer;
     EnemyController::spawnCooldown = 0;
-    if (Textures.loadFromFile("Assets/TECH_DUNGEON_ROUGELITE/Enemies/No Outlines/enemies_x1.png"))
+    if (Textures.loadFromFile("Assets/enemies_x1.png"))
         std::cout << "Enemy textures loaded successfully..." << std::endl;
     else
         std::cout << "Enemy textures failed to load" << std::endl;
 
     projTexture = std::make_shared<sf::Texture>();
-    if (projTexture->loadFromFile("Assets/TECH_DUNGEON_ROUGELITE/Projectiles/projectiles_x1.png")) {
+    if (projTexture->loadFromFile("Assets/projectiles_x1.png")) {
         std::cout << "Projectile texture loaded successfully..." << std::endl;
     }
     else {
@@ -80,7 +80,7 @@ void EnemyController::Spawn(sf::Vector2f playerpos, sf::Vector2f gameResolution)
 }
 
 
-void EnemyController::Update(float delta, sf::Vector2f playerpos, sf::Vector2f gameResolution) {
+void EnemyController::Update(float delta, sf::Vector2f playerpos, sf::Vector2f gameResolution, int& score) {
     if (spawnCooldown > 0)
         spawnCooldown -= delta;
     else
@@ -88,7 +88,22 @@ void EnemyController::Update(float delta, sf::Vector2f playerpos, sf::Vector2f g
     
     for (size_t i = 0; i < enemies.size(); i++)
     {
-        if (enemies[i].isDead)
+        if (enemies[i].isDead) {
+            switch (enemies[i].getType())
+            {
+            case (Enemy::Normal):
+                score++;
+                break;
+            case (Enemy::Shooter):
+                score++;
+                break;
+            case (Enemy::Elite):
+                score += 5;
+                break;
+            default:
+                break;
+            }
             enemies.erase(enemies.begin() + i);
+        }
     }
 }

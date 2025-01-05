@@ -18,7 +18,7 @@ Player::Player(sf::Vector2f gameRes)
     Player::animClock;
 
 
-    if (Texture.loadFromFile("Assets/TECH_DUNGEON_ROUGELITE/Players/No_Outline/player_blue_x1.png"))
+    if (Texture.loadFromFile("Assets/player_blue_x1.png"))
     {
         std::cout << "player texture set successfully..." << std::endl;
         textureWidth = 32;

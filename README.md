@@ -4,6 +4,7 @@
  controls: 
  - WASD / arrows: movement
  - SPACE: dash (attack)
+ - ESCAPE: quit game
  
 Your goal in this game is to survive for as long as possible. 
 At the end of your run, your time and score (which you get from defeating enemies) will be displayed.

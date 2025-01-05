@@ -121,6 +121,10 @@
       </AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-system-s-d.lib;winmm.lib;sfml-window-s-d.lib;opengl32.lib;gdi32.lib;sfml-graphics-s-d.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -141,6 +145,10 @@
       </AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-system-s.lib;winmm.lib;sfml-window-s.lib;opengl32.lib;gdi32.lib;sfml-graphics-s.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Classes\Objects\Enemy.cpp" />
@@ -160,6 +168,15 @@
     <ClInclude Include="Classes\Objects\Projectile.h" />
     <ClInclude Include="Classes\Mechanics\Ui.h" />
     <ClInclude Include="Classes\Mechanics\Math.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\enemies_x1.png" />
+    <Image Include="Assets\ground_tile_x32.png" />
+    <Image Include="Assets\player_blue_x1.png" />
+    <Image Include="Assets\projectiles_x1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Assets\Roboto-Black.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

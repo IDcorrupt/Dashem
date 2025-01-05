@@ -208,12 +208,12 @@ void Enemy::Update(sf::Vector2f target, float delta, sf::Vector2f playerMovement
                 textureRect.left = 0;
                 break;
             case Enemy::Shooter:
-                textureRect.left = 0;
                 textureRect.top = 0;
+                textureRect.left = 0;
                 break;
             case Enemy::Elite:
+                textureRect.top = 6 * textureHeight;
                 textureRect.left = 0;
-                textureRect.top = 6;
                 break;
             default:
                 break;
@@ -350,7 +350,7 @@ void Enemy::EliteAttack(sf::Vector2f target) {
 //getters
 int Enemy::getHealth() { return health; }
 bool Enemy::getHurt() { return isHurt; }
-
+Enemy::EnemyType Enemy::getType() { return type; }
 
 void Enemy::Draw(sf::RenderWindow& window) {
     window.draw(sprite);

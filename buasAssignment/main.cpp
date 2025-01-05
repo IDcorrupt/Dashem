@@ -15,19 +15,14 @@
 
 
 
-bool gameRunning = false;
-
 int main()
 {
-
-    //[DEBUG]  |  uncomment those 2 lines when building to release, they hide console
-    //HWND hWnd = GetConsoleWindow();
-    //ShowWindow(hWnd, SW_HIDE);
-
-    gameRunning = true;
-       
-    
     //===============INITIALIZE===============
+      
+    // these 2 lines hide console
+    HWND hWnd = GetConsoleWindow(); 
+    ShowWindow(hWnd, SW_HIDE); 
+    
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
     
@@ -41,10 +36,11 @@ int main()
     
     //set window position (so it looks centered)
     window.setPosition(sf::Vector2i((displayResolution.width - window.getSize().x) / 2, (displayResolution.height - window.getSize().y) / 2));
-    
+    //framerate limit   
     window.setFramerateLimit(60);
     //===============INITIALIZE===============
     
+    //some console logs with data
     std::cout << "Initalizing program..." << std::endl;
     std::cout << "viewport resolution is: " << window.getSize().x << "x" << window.getSize().y << std::endl;
     std::cout << "display resolution is: " << displayResolution.width << "x" << displayResolution.height << std::endl;
@@ -55,8 +51,9 @@ int main()
     //elements
     Player player = Player(resolution);
     EnemyController controller = EnemyController();
-    Ui ui = Ui();
+    Ui ui = Ui(resolution);
 
+    //background
     sf::RectangleShape background(sf::Vector2f(3840, 2160));
     background.setOrigin(background.getSize().x / 2, background.getSize().y / 2);
     background.setPosition(player.sprite.getPosition());
@@ -66,11 +63,16 @@ int main()
     background.setTexture(&groundtexture);
     background.setTextureRect(sf::IntRect(0, 0, 1920, 1080));
 
-    sf::Clock clock;
-
+    //timers
+    //deltatime
+    sf::Clock deltaClock;
     //increases spawnrate at specific intervals
     sf::Clock difficultyClock;
+    //tracks game run time (from spawn until player death)
+    sf::Clock runTime;
 
+    //score (enemies defeated)
+    int score = 0;
 
     //==================LOAD==================
 
@@ -80,7 +82,7 @@ int main()
     //================UPDATE==================
     
         //DELTATIME
-        sf::Time deltaTimeTimer = clock.restart();
+        sf::Time deltaTimeTimer = deltaClock.restart();
         float delta = deltaTimeTimer.asMilliseconds();
         
         //mouse coords
@@ -90,8 +92,6 @@ int main()
         //event loop
         while (window.pollEvent(event)) 
         {
-         
-   
             //action switch
             switch (event.type)
             {
@@ -102,7 +102,7 @@ int main()
                     window.close();
                 }
                 break;
-
+            //close when pressing "x" on titlebar
             case sf::Event::Closed:
                 window.close();
                 break;
@@ -114,14 +114,15 @@ int main()
         }
 
         //Ui update
-        ui.Update(player.getHealth(), player.getHealthMax(), player.getDashDelta(), player.getDashCooldown());
+        ui.Update(player.getHealth(), player.getHealthMax(), player.getDashDelta(), player.getDashCooldown(), runTime.getElapsedTime().asSeconds(), score);
 
 
 
 
         //INGAME
-        if (gameRunning) 
+        if (!player.isDead)
         {
+
         //dash vector calculations
             // get window position
             sf::Vector2i windowPos = window.getPosition();
@@ -144,41 +145,37 @@ int main()
             sf::Vector2f dashDir(mousePosGame - player.sprite.getPosition());
         //
         
-            //stops player, enemies and timers if player is dead (for animation)
-            if (!player.isDead) {
+            //player movement
+            sf::Vector2f playerMovement = player.Update(delta, dashDir, controller.enemies);
 
-                //player movement
-                sf::Vector2f playerMovement = player.Update(delta, dashDir, controller.enemies);
-
-                //enemy movements
-                for (Enemy& enemy : controller.enemies) {
-                    enemy.Update(player.sprite.getPosition(), delta, playerMovement, player, controller.enemies);
-                }
-                
-                //background is 4k while game resolution is fhd -> bg moves one fhd resolution's worth of pixels in target direction when player reaches edge
-                background.setPosition(background.getPosition() + playerMovement);
-                if (background.getPosition().x >= 1920)
-                    background.setPosition(background.getPosition().x - 1920, background.getPosition().y);
-                if (background.getPosition().x <= 0)
-                    background.setPosition(background.getPosition().x + 1920, background.getPosition().y);
-                if (background.getPosition().y >= 1080)
-                    background.setPosition(background.getPosition().x, background.getPosition().y - 1080);
-                if (background.getPosition().y <= 0)
-                    background.setPosition(background.getPosition().x, background.getPosition().y + 1080);
-
-            
-                //Cooldowns
-                controller.Update(delta, player.sprite.getPosition(), resolution);
-
-                //increase spawnrate at 1 minute intervals
-                if (difficultyClock.getElapsedTime().asSeconds() > 60 && controller.spawnTimer != 3000.0f) {
-                    controller.spawnTimer -= 1000.0f;
-                    difficultyClock.restart();
-                }
+            //enemy movements
+            for (Enemy& enemy : controller.enemies) {
+                enemy.Update(player.sprite.getPosition(), delta, playerMovement, player, controller.enemies);
             }
+                
+            //background is 4k while game resolution is fhd -> bg moves one fhd resolution's worth of pixels in target direction when player reaches edge
+            background.setPosition(background.getPosition() + playerMovement);
+            if (background.getPosition().x >= 1920)
+                background.setPosition(background.getPosition().x - 1920, background.getPosition().y);
+            if (background.getPosition().x <= 0)
+                background.setPosition(background.getPosition().x + 1920, background.getPosition().y);
+            if (background.getPosition().y >= 1080)
+                background.setPosition(background.getPosition().x, background.getPosition().y - 1080);
+            if (background.getPosition().y <= 0)
+                background.setPosition(background.getPosition().x, background.getPosition().y + 1080);
 
             
+            //Cooldowns
+            controller.Update(delta, player.sprite.getPosition(), resolution, score);
 
+            //increase spawnrate at 1 minute intervals
+            if (difficultyClock.getElapsedTime().asSeconds() > 60 && controller.spawnTimer != 3000.0f) {
+                controller.spawnTimer -= 1000.0f;
+                difficultyClock.restart();
+            }
+        }
+        else {
+            ui.EndScreen(delta);
         }
         //================UPDATE===================
         
@@ -186,25 +183,21 @@ int main()
         
         //=================DRAW====================
 
-
-
         window.clear(sf::Color::Color(30,30,30,1));
+               
+        window.draw(background);
+
+
+        //draw all enemies
+        for (Enemy& enemy : controller.enemies)
+            enemy.Draw(window);
+
+        //draw player (after enemies so z index is higher)
+        player.Draw(window)
+            ;
+        //ui
+        ui.Draw(window);
         
-        //INGAME
-        if (gameRunning) {
-            window.draw(background);
-            //ui
-            ui.Draw(window);
-
-            //draw all enemies
-            for (Enemy& enemy : controller.enemies)
-                enemy.Draw(window);
-
-
-            //draw player (last so z index is highest)
-            player.Draw(window);
-        }
-
         window.display();
         //=================DRAW====================
     }

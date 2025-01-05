@@ -63,4 +63,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\enemies_x1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\ground_tile_x32.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\player_blue_x1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\projectiles_x1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Assets\Roboto-Black.ttf" />
+  </ItemGroup>
 </Project>

@@ -67,7 +67,7 @@ public:
     //getters
     int getHealth();
     bool getHurt();
-    
+    EnemyType getType();
     //attack types
     void NormalAttack(sf::Vector2f target);
     void ShooterAttack(sf::Vector2f target, float delta);
